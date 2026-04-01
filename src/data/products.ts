@@ -1,3 +1,10 @@
+import catLitterPremium from "@/assets/cat-litter-premium.png";
+import catLitterSmall from "@/assets/cat-litter-small.png";
+import catLavender from "@/assets/cat-lavender.png";
+import catPearls from "@/assets/cat-pearls.png";
+import catScoop from "@/assets/cat-scoop.png";
+import catLitterbox from "@/assets/cat-litterbox.png";
+
 export interface Product {
   id: string;
   nameEs: string;
@@ -17,7 +24,7 @@ export const products: Product[] = [
     descriptionEs: "Arena aglomerante de alta absorción con control de olores. Ideal para hogares con uno o más gatitos.",
     descriptionEn: "High-absorption clumping litter with odor control. Ideal for homes with one or more cats.",
     category: "arena",
-    image: "🏖️",
+    image: catLitterPremium,
     price: "$189 MXN",
   },
   {
@@ -27,7 +34,7 @@ export const products: Product[] = [
     descriptionEs: "Presentación compacta perfecta para un solo gatito. Misma calidad premium.",
     descriptionEn: "Compact size perfect for a single cat. Same premium quality.",
     category: "arena",
-    image: "🏝️",
+    image: catLitterSmall,
     price: "$109 MXN",
   },
   {
@@ -37,7 +44,7 @@ export const products: Product[] = [
     descriptionEs: "Arena con delicioso aroma a lavanda. Tu hogar siempre fresco y perfumado.",
     descriptionEn: "Litter with delightful lavender scent. Keep your home fresh and fragrant.",
     category: "arena",
-    image: "💜",
+    image: catLavender,
     price: "$199 MXN",
   },
   {
@@ -47,7 +54,7 @@ export const products: Product[] = [
     descriptionEs: "Perlas que potencian el control de olores. Espolvorea sobre la arena para mayor frescura.",
     descriptionEn: "Pearls that enhance odor control. Sprinkle over litter for extra freshness.",
     category: "perlas",
-    image: "✨",
+    image: catPearls,
     price: "$79 MXN",
   },
   {
@@ -57,7 +64,7 @@ export const products: Product[] = [
     descriptionEs: "Pala ergonómica con rejilla fina para limpieza fácil y rápida.",
     descriptionEn: "Ergonomic scoop with fine grid for easy and fast cleaning.",
     category: "accesorio",
-    image: "🥄",
+    image: catScoop,
     price: "$49 MXN",
   },
   {
@@ -67,7 +74,7 @@ export const products: Product[] = [
     descriptionEs: "Arenero con tapa y filtro de carbón. Máxima privacidad para tu michi.",
     descriptionEn: "Covered litter box with carbon filter. Maximum privacy for your cat.",
     category: "accesorio",
-    image: "🏠",
+    image: catLitterbox,
     price: "$399 MXN",
   },
 ];

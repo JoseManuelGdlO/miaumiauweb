@@ -5,8 +5,8 @@ import ProductCard from "@/components/ProductCard";
 import PromoCard from "@/components/PromoCard";
 import { Button } from "@/components/ui/button";
 import { Star, Truck, Heart, Award } from "lucide-react";
+import heroCats from "@/assets/hero-cats.jpg";
 import brandLogo from "@/assets/brand-logo.png";
-import brandStyle from "@/assets/brand-style.png";
 
 const Index = () => {
   const { t } = useLanguage();
@@ -15,9 +15,12 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden paw-pattern">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/30 to-accent/10" />
-        <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={heroCats} alt="Gatitos Miau Miau" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/30" />
+        </div>
+        <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="flex-1 text-center md:text-left space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-tight">
@@ -37,20 +40,11 @@ const Index = () => {
               </a>
             </div>
             <div className="flex-1 flex justify-center">
-              <div className="relative">
-                <img
-                  src={brandStyle}
-                  alt="Miau Miau"
-                  className="w-64 md:w-80 rounded-3xl shadow-2xl animate-float"
-                />
-                <div className="absolute -bottom-4 -right-4 animate-float-delay">
-                  <img
-                    src={brandLogo}
-                    alt="Logo"
-                    className="w-20 h-20 rounded-full shadow-lg border-4 border-card"
-                  />
-                </div>
-              </div>
+              <img
+                src={brandLogo}
+                alt="Miau Miau Logo"
+                className="w-40 md:w-56 rounded-full shadow-2xl border-4 border-card animate-float"
+              />
             </div>
           </div>
         </div>
