@@ -5,7 +5,6 @@ import ProductCard from "@/components/ProductCard";
 import PromoCard from "@/components/PromoCard";
 import { Button } from "@/components/ui/button";
 import { Star, Truck, Heart, Award } from "lucide-react";
-import heroCats from "@/assets/hero-cats.jpg";
 import brandLogo from "@/assets/brand-logo.png";
 
 const Index = () => {
