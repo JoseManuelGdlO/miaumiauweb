@@ -13,12 +13,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <div className="group bg-card rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-border">
-      <div className="bg-section-lavender flex items-center justify-center p-4 overflow-hidden aspect-square">
+      <div className="overflow-hidden aspect-square">
         <img
           src={product.image}
           alt={product.title}
           loading="lazy"
-          className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
       </div>
       <div className="p-6 space-y-3">
