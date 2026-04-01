@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X, Globe, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import brandLogo from "@/assets/brand-logo.png";
 
@@ -16,8 +16,10 @@ const Navbar = () => {
   return (
     <>
       {/* Announcement bar */}
-      <div className="bg-primary text-primary-foreground text-center text-sm font-bold py-2 px-4" style={{ fontFamily: "'Fredoka', sans-serif" }}>
-        🐾 {language === "es" ? "¡Envíos a todo México! Pide por WhatsApp" : "Nationwide shipping! Order via WhatsApp"} 🐾
+      <div className="bg-primary text-primary-foreground text-center text-sm font-bold py-2 px-4 flex items-center justify-center gap-2" style={{ fontFamily: "'Fredoka', sans-serif" }}>
+        <Truck className="h-4 w-4" />
+        {language === "es" ? "¡Envíos a todo México! Pide por WhatsApp" : "Nationwide shipping! Order via WhatsApp"}
+        <Truck className="h-4 w-4" />
       </div>
 
       <nav className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border shadow-sm">

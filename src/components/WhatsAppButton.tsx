@@ -1,7 +1,8 @@
 import { MessageCircle } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const WHATSAPP_NUMBER = "521234567890";
-const DEFAULT_MESSAGE = "¡Hola! Me gustaría hacer un pedido de arena Miau Miau 🐱";
+const DEFAULT_MESSAGE = "¡Hola! Me gustaría hacer un pedido de arena Miau Miau";
 
 interface WhatsAppButtonProps {
   message?: string;
@@ -27,7 +28,8 @@ const WhatsAppButton = ({ message, className }: WhatsAppButtonProps) => {
 export default WhatsAppButton;
 
 export const WhatsAppCTA = ({ productName }: { productName: string }) => {
-  const message = `¡Hola! Me interesa el producto: ${productName}`;
+  const { t } = useLanguage();
+  const message = `${t("product.whatsapp")}${productName}`;
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
   return (
@@ -38,7 +40,7 @@ export const WhatsAppCTA = ({ productName }: { productName: string }) => {
       className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded-full transition-all hover:scale-105 text-sm"
     >
       <MessageCircle className="h-4 w-4 fill-current" />
-      Pedir por WhatsApp
+      {t("product.order")}
     </a>
   );
 };
