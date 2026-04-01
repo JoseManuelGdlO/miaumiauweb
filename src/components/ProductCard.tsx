@@ -22,8 +22,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 border-transparent hover:border-primary/20">
-      <div className="bg-secondary/50 flex items-center justify-center py-8 text-6xl group-hover:scale-110 transition-transform duration-300">
-        {product.image}
+      <div className="bg-secondary/50 flex items-center justify-center p-4 overflow-hidden">
+        <img
+          src={product.image}
+          alt={name}
+          loading="lazy"
+          width={512}
+          height={512}
+          className="w-48 h-48 object-contain group-hover:scale-110 transition-transform duration-300"
+        />
       </div>
       <CardContent className="p-5 space-y-3">
         <div className="flex items-start justify-between gap-2">
