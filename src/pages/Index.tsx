@@ -6,7 +6,7 @@ import PromoCard from "@/components/PromoCard";
 import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
 import { Star, Truck, Heart, Award } from "lucide-react";
-import brandLogo from "@/assets/brand-logo.png";
+
 
 const Index = () => {
   const { t } = useLanguage();
