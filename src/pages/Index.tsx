@@ -6,7 +6,7 @@ import PromoCard from "@/components/PromoCard";
 import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
 import { Star, Truck, Heart, Award } from "lucide-react";
-import brandLogo from "@/assets/brand-logo.png";
+
 
 const Index = () => {
   const { t } = useLanguage();
@@ -51,17 +51,6 @@ const Index = () => {
                   📱 {t("hero.cta")}
                 </Button>
               </a>
-            </div>
-            <div className="flex-1 flex justify-center">
-              <div className="relative">
-                <div className="w-48 h-48 md:w-64 md:h-64 rounded-full bg-primary/20 absolute -top-4 -left-4 animate-float-delay" />
-                <img
-                  src={brandLogo}
-                  alt="Miau Miau Logo"
-                  className="w-44 md:w-60 rounded-full shadow-2xl border-4 border-card animate-float relative z-10"
-                />
-                <div className="w-20 h-20 rounded-full bg-accent/30 absolute -bottom-2 -right-2 animate-wiggle" />
-              </div>
             </div>
           </div>
         </div>
