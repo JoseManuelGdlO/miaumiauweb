@@ -19,7 +19,7 @@ const Index = () => {
           <iframe
             src="https://www.youtube.com/embed/h3u-4RAwZSA?autoplay=1&mute=1&loop=1&playlist=h3u-4RAwZSA&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1"
             title="Miau Miau Video"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[180%] md:w-[120%] md:h-[120%] pointer-events-none"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[300%] min-h-[300%] sm:min-w-[200%] sm:min-h-[200%] md:min-w-[150%] md:min-h-[150%] lg:min-w-[120%] lg:min-h-[120%] pointer-events-none"
             allow="autoplay; encrypted-media"
             allowFullScreen
           />
