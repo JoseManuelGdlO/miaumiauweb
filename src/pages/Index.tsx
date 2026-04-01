@@ -5,7 +5,6 @@ import ProductCard from "@/components/ProductCard";
 import PromoCard from "@/components/PromoCard";
 import { Button } from "@/components/ui/button";
 import { Star, Truck, Heart, Award } from "lucide-react";
-import heroCats from "@/assets/hero-cats.jpg";
 import brandLogo from "@/assets/brand-logo.png";
 
 const Index = () => {
@@ -15,9 +14,15 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroCats} alt="Gatitos Miau Miau" className="w-full h-full object-cover" />
+      <section className="relative overflow-hidden min-h-[80vh] flex items-center">
+        <div className="absolute inset-0 overflow-hidden">
+          <iframe
+            src="https://www.youtube.com/embed/h3u-4RAwZSA?autoplay=1&mute=1&loop=1&playlist=h3u-4RAwZSA&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1"
+            title="Miau Miau Video"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[180%] md:w-[120%] md:h-[120%] pointer-events-none"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/30" />
         </div>
         <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
