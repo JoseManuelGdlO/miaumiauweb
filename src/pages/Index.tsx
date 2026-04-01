@@ -1,11 +1,11 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { products } from "@/data/products";
+import { products, packages } from "@/data/products";
 import { promotions } from "@/data/promotions";
 import ProductCard from "@/components/ProductCard";
 import PromoCard from "@/components/PromoCard";
 import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
-import { Star, Truck, Heart, Award, PawPrint, Smartphone, Cat } from "lucide-react";
+import { Star, Truck, Heart, Award, PawPrint, Smartphone, Cat, Package } from "lucide-react";
 
 const Index = () => {
   const { t } = useLanguage();
@@ -56,7 +56,6 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Wave transition to next section */}
         <div className="absolute bottom-0 left-0 w-full z-10">
           <WaveDivider color="hsl(var(--section-lavender))" />
         </div>
@@ -98,7 +97,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Products Catalog - Default bg */}
+      {/* Products Catalog */}
       <section className="py-16 md:py-20 relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -111,7 +110,7 @@ const Index = () => {
             <p className="text-muted-foreground mt-3 text-lg">{t("catalog.subtitle")}</p>
             <div className="w-24 h-1 bg-accent rounded-full mx-auto mt-4" />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -123,8 +122,36 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Promotions - Peach section */}
-      <section className="bg-section-peach py-16 md:py-20 paw-pattern relative">
+      {/* Packages Section - Peach */}
+      <section className="bg-section-peach py-16 md:py-20 relative">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 mb-4">
+              <Package className="h-8 w-8 text-primary" />
+            </div>
+            <h2
+              className="text-3xl md:text-5xl font-black text-foreground"
+              style={{ fontFamily: "'Fredoka', sans-serif" }}
+            >
+              Paquetes y Combos
+            </h2>
+            <p className="text-muted-foreground mt-3 text-lg">Ahorra más con nuestros paquetes especiales</p>
+            <div className="w-24 h-1 bg-primary rounded-full mx-auto mt-4" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {packages.map((pkg) => (
+              <ProductCard key={pkg.id} product={pkg} />
+            ))}
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 left-0 w-full">
+          <WaveDivider color="hsl(var(--section-sky))" />
+        </div>
+      </section>
+
+      {/* Featured Promotions - Sky section */}
+      <section className="bg-section-sky py-16 md:py-20 paw-pattern relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2
