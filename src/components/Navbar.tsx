@@ -14,64 +14,72 @@ const Navbar = () => {
   const toggleLang = () => setLanguage(language === "es" ? "en" : "es");
 
   return (
-    <nav className="sticky top-0 z-50 bg-card/90 backdrop-blur-md border-b border-border shadow-sm">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <img src={brandLogo} alt="Miau Miau" className="h-10 w-10 rounded-full object-cover" />
-          <span className="text-xl font-extrabold text-primary">Miau Miau</span>
-        </Link>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-6">
-          <Link to="/" className="font-semibold text-foreground hover:text-primary transition-colors">
-            {t("nav.home")}
-          </Link>
-          <Link to="/promotions" className="font-semibold text-foreground hover:text-primary transition-colors">
-            {t("nav.promotions")}
-          </Link>
-          {isLoggedIn ? (
-            <Link to="/profile" className="font-semibold text-foreground hover:text-primary transition-colors">
-              {t("nav.profile")}
-            </Link>
-          ) : (
-            <Link to="/auth" className="font-semibold text-foreground hover:text-primary transition-colors">
-              {t("nav.login")}
-            </Link>
-          )}
-          <Button variant="ghost" size="icon" onClick={toggleLang} className="rounded-full" title="Switch language">
-            <Globe className="h-5 w-5" />
-            <span className="sr-only">Language</span>
-          </Button>
-          <span className="text-xs font-bold text-muted-foreground uppercase">{language}</span>
-        </div>
-
-        {/* Mobile toggle */}
-        <div className="md:hidden flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={toggleLang} className="rounded-full">
-            <Globe className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
-        </div>
+    <>
+      {/* Announcement bar */}
+      <div className="bg-primary text-primary-foreground text-center text-sm font-bold py-2 px-4" style={{ fontFamily: "'Fredoka', sans-serif" }}>
+        🐾 {language === "es" ? "¡Envíos a todo México! Pide por WhatsApp" : "Nationwide shipping! Order via WhatsApp"} 🐾
       </div>
 
-      {/* Mobile menu */}
-      {isOpen && (
-        <div className="md:hidden border-t border-border bg-card px-4 py-4 space-y-3">
-          <Link to="/" onClick={() => setIsOpen(false)} className="block font-semibold text-foreground hover:text-primary">
-            {t("nav.home")}
+      <nav className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border shadow-sm">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3">
+            <img src={brandLogo} alt="Miau Miau" className="h-12 w-12 rounded-full object-cover border-2 border-primary shadow-md" />
+            <span className="text-2xl font-extrabold text-primary" style={{ fontFamily: "'Fredoka', sans-serif" }}>
+              Miau Miau
+            </span>
           </Link>
-          <Link to="/promotions" onClick={() => setIsOpen(false)} className="block font-semibold text-foreground hover:text-primary">
-            {t("nav.promotions")}
-          </Link>
-          <Link to={isLoggedIn ? "/profile" : "/auth"} onClick={() => setIsOpen(false)} className="block font-semibold text-foreground hover:text-primary">
-            {isLoggedIn ? t("nav.profile") : t("nav.login")}
-          </Link>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            <Link to="/" className="font-bold text-foreground hover:text-primary transition-colors text-sm uppercase tracking-wide">
+              {t("nav.home")}
+            </Link>
+            <Link to="/promotions" className="font-bold text-foreground hover:text-primary transition-colors text-sm uppercase tracking-wide">
+              {t("nav.promotions")}
+            </Link>
+            {isLoggedIn ? (
+              <Link to="/profile" className="font-bold text-foreground hover:text-primary transition-colors text-sm uppercase tracking-wide">
+                {t("nav.profile")}
+              </Link>
+            ) : (
+              <Link to="/auth" className="font-bold text-foreground hover:text-primary transition-colors text-sm uppercase tracking-wide">
+                {t("nav.login")}
+              </Link>
+            )}
+            <Button variant="ghost" size="icon" onClick={toggleLang} className="rounded-full border-2 border-border hover:border-primary" title="Switch language">
+              <Globe className="h-5 w-5" />
+            </Button>
+            <span className="text-xs font-bold text-muted-foreground uppercase">{language}</span>
+          </div>
+
+          {/* Mobile toggle */}
+          <div className="md:hidden flex items-center gap-2">
+            <Button variant="ghost" size="icon" onClick={toggleLang} className="rounded-full">
+              <Globe className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
         </div>
-      )}
-    </nav>
+
+        {/* Mobile menu */}
+        {isOpen && (
+          <div className="md:hidden border-t border-border bg-card px-4 py-4 space-y-3">
+            <Link to="/" onClick={() => setIsOpen(false)} className="block font-bold text-foreground hover:text-primary uppercase text-sm tracking-wide">
+              {t("nav.home")}
+            </Link>
+            <Link to="/promotions" onClick={() => setIsOpen(false)} className="block font-bold text-foreground hover:text-primary uppercase text-sm tracking-wide">
+              {t("nav.promotions")}
+            </Link>
+            <Link to={isLoggedIn ? "/profile" : "/auth"} onClick={() => setIsOpen(false)} className="block font-bold text-foreground hover:text-primary uppercase text-sm tracking-wide">
+              {isLoggedIn ? t("nav.profile") : t("nav.login")}
+            </Link>
+          </div>
+        )}
+      </nav>
+    </>
   );
 };
 

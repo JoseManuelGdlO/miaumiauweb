@@ -3,6 +3,7 @@ import { products } from "@/data/products";
 import { promotions } from "@/data/promotions";
 import ProductCard from "@/components/ProductCard";
 import PromoCard from "@/components/PromoCard";
+import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
 import { Star, Truck, Heart, Award } from "lucide-react";
 import brandLogo from "@/assets/brand-logo.png";
@@ -13,8 +14,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden min-h-[80vh] flex items-center">
+      {/* Hero Section with Video */}
+      <section className="relative overflow-hidden min-h-[85vh] flex items-center">
         <div className="absolute inset-0 overflow-hidden">
           <iframe
             src="https://www.youtube.com/embed/h3u-4RAwZSA?autoplay=1&mute=1&loop=1&playlist=h3u-4RAwZSA&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1"
@@ -23,15 +24,22 @@ const Index = () => {
             allow="autoplay; encrypted-media"
             allowFullScreen
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/75 to-transparent" />
         </div>
+
         <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <div className="flex-1 text-center md:text-left space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-tight">
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+            <div className="flex-1 text-center md:text-left space-y-6 max-w-xl">
+              <div className="inline-block bg-primary/10 text-primary font-bold text-sm px-4 py-1.5 rounded-full border border-primary/20">
+                🐾 Arena Premium para Gatitos
+              </div>
+              <h1
+                className="text-4xl md:text-5xl lg:text-7xl font-black text-foreground leading-[1.1]"
+                style={{ fontFamily: "'Fredoka', sans-serif" }}
+              >
                 {t("hero.title")}
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-lg">
+              <p className="text-lg md:text-xl text-muted-foreground max-w-md">
                 {t("hero.subtitle")}
               </p>
               <a
@@ -39,28 +47,42 @@ const Index = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button size="lg" className="text-lg px-8 py-6 rounded-full font-extrabold shadow-lg hover:shadow-xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-2">
+                <Button size="lg" className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-2">
                   📱 {t("hero.cta")}
                 </Button>
               </a>
             </div>
             <div className="flex-1 flex justify-center">
-              <img
-                src={brandLogo}
-                alt="Miau Miau Logo"
-                className="w-40 md:w-56 rounded-full shadow-2xl border-4 border-card animate-float"
-              />
+              <div className="relative">
+                <div className="w-48 h-48 md:w-64 md:h-64 rounded-full bg-primary/20 absolute -top-4 -left-4 animate-float-delay" />
+                <img
+                  src={brandLogo}
+                  alt="Miau Miau Logo"
+                  className="w-44 md:w-60 rounded-full shadow-2xl border-4 border-card animate-float relative z-10"
+                />
+                <div className="w-20 h-20 rounded-full bg-accent/30 absolute -bottom-2 -right-2 animate-wiggle" />
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Wave transition to next section */}
+        <div className="absolute bottom-0 left-0 w-full z-10">
+          <WaveDivider color="hsl(var(--section-lavender))" />
+        </div>
       </section>
 
-      {/* Why Miau Miau */}
-      <section className="py-16 bg-secondary/30">
+      {/* Why Miau Miau - Lavender section */}
+      <section className="bg-section-lavender py-16 md:py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-black text-center text-foreground mb-12">
+          <h2
+            className="text-3xl md:text-5xl font-black text-center text-foreground mb-4"
+            style={{ fontFamily: "'Fredoka', sans-serif" }}
+          >
             {t("why.title")}
           </h2>
+          <div className="w-24 h-1 bg-primary rounded-full mx-auto mb-12" />
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { icon: <Star className="h-8 w-8" />, title: t("why.quality"), desc: t("why.qualityDesc") },
@@ -68,44 +90,97 @@ const Index = () => {
               { icon: <Award className="h-8 w-8" />, title: t("why.loyalty"), desc: t("why.loyaltyDesc") },
               { icon: <Heart className="h-8 w-8" />, title: t("why.love"), desc: t("why.loveDesc") },
             ].map((item, i) => (
-              <div key={i} className="bg-card rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition-shadow border border-border">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-4">
+              <div key={i} className="bg-card rounded-3xl p-8 text-center shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 group">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary mb-5 group-hover:scale-110 transition-transform">
                   {item.icon}
                 </div>
-                <h3 className="font-bold text-foreground mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.desc}</p>
+                <h3 className="font-extrabold text-foreground mb-2 text-lg" style={{ fontFamily: "'Fredoka', sans-serif" }}>
+                  {item.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
+
+        <div className="absolute bottom-0 left-0 w-full">
+          <WaveDivider color="hsl(var(--background))" />
+        </div>
       </section>
 
-      {/* Products Catalog */}
-      <section className="py-16">
+      {/* Products Catalog - Default bg */}
+      <section className="py-16 md:py-20 relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-foreground">{t("catalog.title")}</h2>
-            <p className="text-muted-foreground mt-2">{t("catalog.subtitle")}</p>
+            <h2
+              className="text-3xl md:text-5xl font-black text-foreground"
+              style={{ fontFamily: "'Fredoka', sans-serif" }}
+            >
+              {t("catalog.title")}
+            </h2>
+            <p className="text-muted-foreground mt-3 text-lg">{t("catalog.subtitle")}</p>
+            <div className="w-24 h-1 bg-accent rounded-full mx-auto mt-4" />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>
+
+        <div className="absolute bottom-0 left-0 w-full">
+          <WaveDivider color="hsl(var(--section-peach))" />
+        </div>
       </section>
 
-      {/* Featured Promotions */}
-      <section className="py-16 bg-secondary/30 paw-pattern">
+      {/* Featured Promotions - Peach section */}
+      <section className="bg-section-peach py-16 md:py-20 paw-pattern relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-foreground">{t("promos.title")}</h2>
-            <p className="text-muted-foreground mt-2">{t("promos.subtitle")}</p>
+            <h2
+              className="text-3xl md:text-5xl font-black text-foreground"
+              style={{ fontFamily: "'Fredoka', sans-serif" }}
+            >
+              {t("promos.title")}
+            </h2>
+            <p className="text-muted-foreground mt-3 text-lg">{t("promos.subtitle")}</p>
+            <div className="w-24 h-1 bg-primary rounded-full mx-auto mt-4" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {featuredPromos.map((promo) => (
               <PromoCard key={promo.id} promotion={promo} />
             ))}
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 left-0 w-full">
+          <WaveDivider color="hsl(var(--section-mint))" />
+        </div>
+      </section>
+
+      {/* CTA Section - Mint */}
+      <section className="bg-section-mint py-16 md:py-24">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-2xl mx-auto space-y-6">
+            <span className="text-5xl md:text-7xl">🐱</span>
+            <h2
+              className="text-3xl md:text-5xl font-black text-foreground"
+              style={{ fontFamily: "'Fredoka', sans-serif" }}
+            >
+              {t("cta.whatsapp")}
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              {t("hero.subtitle")}
+            </p>
+            <a
+              href="https://wa.me/521234567890"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="lg" className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-4">
+                📱 {t("hero.cta")}
+              </Button>
+            </a>
           </div>
         </div>
       </section>
