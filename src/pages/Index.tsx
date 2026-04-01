@@ -5,8 +5,7 @@ import ProductCard from "@/components/ProductCard";
 import PromoCard from "@/components/PromoCard";
 import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
-import { Star, Truck, Heart, Award } from "lucide-react";
-
+import { Star, Truck, Heart, Award, PawPrint, Smartphone, Cat } from "lucide-react";
 
 const Index = () => {
   const { t } = useLanguage();
@@ -30,8 +29,9 @@ const Index = () => {
         <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
             <div className="flex-1 text-center md:text-left space-y-6 max-w-xl">
-              <div className="inline-block bg-primary/10 text-primary font-bold text-sm px-4 py-1.5 rounded-full border border-primary/20">
-                🐾 Arena Premium para Gatitos
+              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold text-sm px-4 py-1.5 rounded-full border border-primary/20">
+                <PawPrint className="h-4 w-4" />
+                Arena Premium para Gatitos
               </div>
               <h1
                 className="text-4xl md:text-5xl lg:text-7xl font-black text-foreground leading-[1.1]"
@@ -47,8 +47,9 @@ const Index = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button size="lg" className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-2">
-                  📱 {t("hero.cta")}
+                <Button size="lg" className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-2 gap-2">
+                  <Smartphone className="h-5 w-5" />
+                  {t("hero.cta")}
                 </Button>
               </a>
             </div>
@@ -151,7 +152,9 @@ const Index = () => {
       <section className="bg-section-mint py-16 md:py-24">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-2xl mx-auto space-y-6">
-            <span className="text-5xl md:text-7xl">🐱</span>
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary">
+              <Cat className="h-10 w-10" />
+            </div>
             <h2
               className="text-3xl md:text-5xl font-black text-foreground"
               style={{ fontFamily: "'Fredoka', sans-serif" }}
@@ -166,8 +169,9 @@ const Index = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button size="lg" className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-4">
-                📱 {t("hero.cta")}
+              <Button size="lg" className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-4 gap-2">
+                <Smartphone className="h-5 w-5" />
+                {t("hero.cta")}
               </Button>
             </a>
           </div>

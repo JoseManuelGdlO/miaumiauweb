@@ -1,5 +1,5 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Heart } from "lucide-react";
+import { Heart, PawPrint, Smartphone, Instagram, Facebook, Music } from "lucide-react";
 import brandLogo from "@/assets/brand-logo.png";
 import WaveDivider from "./WaveDivider";
 
@@ -18,8 +18,8 @@ const Footer = () => {
                 <img src={brandLogo} alt="Miau Miau" className="h-12 w-12 rounded-full object-cover border-2 border-primary" />
                 <span className="text-2xl font-extrabold" style={{ fontFamily: "'Fredoka', sans-serif" }}>Miau Miau</span>
               </div>
-              <p className="text-sm opacity-80 text-center md:text-left">
-                Arena premium para gatitos felices 🐾
+              <p className="text-sm opacity-80 text-center md:text-left inline-flex items-center gap-1.5">
+                Arena premium para gatitos felices <PawPrint className="h-3.5 w-3.5 inline" />
               </p>
             </div>
 
@@ -30,9 +30,9 @@ const Footer = () => {
                 href="https://wa.me/521234567890"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm opacity-80 hover:opacity-100 transition-opacity"
+                className="text-sm opacity-80 hover:opacity-100 transition-opacity inline-flex items-center gap-1.5"
               >
-                📱 {t("footer.whatsapp")}
+                <Smartphone className="h-4 w-4" /> {t("footer.whatsapp")}
               </a>
             </div>
 
@@ -40,9 +40,9 @@ const Footer = () => {
             <div className="text-center md:text-left">
               <h4 className="font-bold mb-3 text-lg" style={{ fontFamily: "'Fredoka', sans-serif" }}>{t("footer.followUs")}</h4>
               <div className="flex gap-4 justify-center md:justify-start">
-                <a href="#" className="text-sm opacity-80 hover:opacity-100 transition-opacity">📸 Instagram</a>
-                <a href="#" className="text-sm opacity-80 hover:opacity-100 transition-opacity">📘 Facebook</a>
-                <a href="#" className="text-sm opacity-80 hover:opacity-100 transition-opacity">🎵 TikTok</a>
+                <a href="#" className="text-sm opacity-80 hover:opacity-100 transition-opacity inline-flex items-center gap-1"><Instagram className="h-4 w-4" /> Instagram</a>
+                <a href="#" className="text-sm opacity-80 hover:opacity-100 transition-opacity inline-flex items-center gap-1"><Facebook className="h-4 w-4" /> Facebook</a>
+                <a href="#" className="text-sm opacity-80 hover:opacity-100 transition-opacity inline-flex items-center gap-1"><Music className="h-4 w-4" /> TikTok</a>
               </div>
             </div>
           </div>

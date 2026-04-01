@@ -6,7 +6,7 @@ export interface Promotion {
   descriptionEn: string;
   discount: string;
   validUntil: string;
-  image: string;
+  icon: string;
   bgColor: string;
 }
 
@@ -19,7 +19,7 @@ export const promotions: Promotion[] = [
     descriptionEn: "Get two 10kg premium litter bags for the price of one. Limited time only!",
     discount: "2x1",
     validUntil: "2026-04-30",
-    image: "🎁",
+    icon: "gift",
     bgColor: "from-primary to-accent",
   },
   {
@@ -30,7 +30,7 @@ export const promotions: Promotion[] = [
     descriptionEn: "Place an order over $300 MXN and shipping is on us. Nationwide!",
     discount: "GRATIS",
     validUntil: "2026-05-15",
-    image: "🚚",
+    icon: "truck",
     bgColor: "from-green-500 to-emerald-400",
   },
   {
@@ -41,7 +41,7 @@ export const promotions: Promotion[] = [
     descriptionEn: "All April purchases earn double loyalty points. Level up faster!",
     discount: "x2",
     validUntil: "2026-04-30",
-    image: "⭐",
+    icon: "star",
     bgColor: "from-yellow-500 to-amber-400",
   },
   {
@@ -52,7 +52,7 @@ export const promotions: Promotion[] = [
     descriptionEn: "10kg Litter + Scoop + Aromatic Pearls. The perfect pack to welcome your new kitty.",
     discount: "-20%",
     validUntil: "2026-06-01",
-    image: "🐱",
+    icon: "cat",
     bgColor: "from-pink-500 to-rose-400",
   },
 ];
