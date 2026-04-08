@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Menu, X, Globe, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import siteLogo from "@/assets/logo.jpg";
 
 const Navbar = () => {
   const { language, setLanguage, t } = useLanguage();
+  const { token } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-  const isLoggedIn = location.pathname === "/profile";
+  const isLoggedIn = Boolean(token);
 
   const toggleLang = () => setLanguage(language === "es" ? "en" : "es");
 

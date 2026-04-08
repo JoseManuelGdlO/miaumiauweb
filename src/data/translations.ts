@@ -8,7 +8,12 @@ export type TranslationKey =
   | "promos.title" | "promos.subtitle" | "promos.valid" | "promos.badge"
   | "why.title" | "why.quality" | "why.qualityDesc" | "why.delivery" | "why.deliveryDesc" | "why.loyalty" | "why.loyaltyDesc" | "why.love" | "why.loveDesc"
   | "auth.login" | "auth.register" | "auth.email" | "auth.password" | "auth.name" | "auth.phone" | "auth.address" | "auth.submit" | "auth.switchLogin" | "auth.switchRegister"
+  | "auth.apiMissing" | "auth.errorLogin" | "auth.passwordTooShort" | "auth.passwordMismatch" | "auth.errorChange" | "auth.loggingIn"
+  | "auth.whatsappOnly" | "auth.firstTimeTitle" | "auth.firstTimeStep1" | "auth.firstTimeStep2" | "auth.firstTimeStep3"
+  | "auth.changePasswordTitle" | "auth.changePasswordHint" | "auth.newPassword" | "auth.confirmPassword" | "auth.savePassword"
   | "profile.title" | "profile.points" | "profile.level" | "profile.history" | "profile.date" | "profile.action" | "profile.amount" | "profile.memberSince" | "profile.totalOrders" | "profile.nextLevel"
+  | "profile.loading" | "profile.loadError" | "profile.ordersTitle" | "profile.orderNumber" | "profile.orderStatus" | "profile.orderTotal"
+  | "profile.pointsSummary" | "profile.pointsEarnedTotal" | "profile.pointsSpentTotal" | "profile.noOrders" | "profile.noMovements" | "profile.balanceAfter"
   | "loyalty.gatito" | "loyalty.michi" | "loyalty.vip"
   | "footer.rights" | "footer.contact" | "footer.followUs" | "footer.whatsapp"
   | "cta.whatsapp"
@@ -51,6 +56,23 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "auth.submit": "Entrar",
     "auth.switchLogin": "¿Ya tienes cuenta? Inicia sesión",
     "auth.switchRegister": "¿No tienes cuenta? Regístrate",
+    "auth.apiMissing": "Configura VITE_API_BASE_URL para conectar con el servidor.",
+    "auth.errorLogin": "No pudimos iniciar sesión. Verifica tus datos.",
+    "auth.passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
+    "auth.passwordMismatch": "Las contraseñas no coinciden.",
+    "auth.errorChange": "No se pudo actualizar la contraseña.",
+    "auth.loggingIn": "Entrando…",
+    "auth.whatsappOnly":
+      "Solo tienen cuenta quienes ya han comprado con nosotros por WhatsApp. Usa el mismo teléfono con el que pediste.",
+    "auth.firstTimeTitle": "¿Primera vez aquí?",
+    "auth.firstTimeStep1": "Ingresa tu teléfono y como contraseña tu apellido (como aparece en tu nombre registrado).",
+    "auth.firstTimeStep2": "Te pediremos crear una contraseña nueva y segura.",
+    "auth.firstTimeStep3": "Listo: podrás ver tus pedidos y tus puntos de lealtad.",
+    "auth.changePasswordTitle": "Crea tu contraseña",
+    "auth.changePasswordHint": "Elige una contraseña que solo tú conozcas; la usarás en tus próximas visitas.",
+    "auth.newPassword": "Nueva contraseña",
+    "auth.confirmPassword": "Confirmar contraseña",
+    "auth.savePassword": "Guardar y continuar",
     "profile.title": "Mi Perfil",
     "profile.points": "Puntos acumulados",
     "profile.level": "Nivel de lealtad",
@@ -61,6 +83,18 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "profile.memberSince": "Miembro desde",
     "profile.totalOrders": "Pedidos totales",
     "profile.nextLevel": "puntos para el siguiente nivel",
+    "profile.loading": "Cargando…",
+    "profile.loadError": "No se pudo cargar tu información.",
+    "profile.ordersTitle": "Historial de pedidos",
+    "profile.orderNumber": "Pedido",
+    "profile.orderStatus": "Estado",
+    "profile.orderTotal": "Total",
+    "profile.pointsSummary": "Resumen de puntos",
+    "profile.pointsEarnedTotal": "Total acumulado (ganados)",
+    "profile.pointsSpentTotal": "Total gastado",
+    "profile.noOrders": "Aún no hay pedidos registrados.",
+    "profile.noMovements": "Sin movimientos de puntos aún.",
+    "profile.balanceAfter": "Saldo",
     "loyalty.gatito": "Gatito Nuevo",
     "loyalty.michi": "Michi Fiel",
     "loyalty.vip": "Michi VIP",
@@ -109,6 +143,23 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "auth.submit": "Submit",
     "auth.switchLogin": "Already have an account? Login",
     "auth.switchRegister": "Don't have an account? Register",
+    "auth.apiMissing": "Set VITE_API_BASE_URL to connect to the server.",
+    "auth.errorLogin": "Could not sign in. Check your details.",
+    "auth.passwordTooShort": "Password must be at least 6 characters.",
+    "auth.passwordMismatch": "Passwords do not match.",
+    "auth.errorChange": "Could not update password.",
+    "auth.loggingIn": "Signing in…",
+    "auth.whatsappOnly":
+      "Only customers who have ordered via WhatsApp have an account. Use the same phone number you used to order.",
+    "auth.firstTimeTitle": "First time here?",
+    "auth.firstTimeStep1": "Enter your phone and use your last name as your password (as shown on your registered name).",
+    "auth.firstTimeStep2": "We will ask you to create a new secure password.",
+    "auth.firstTimeStep3": "Then you can view your orders and loyalty points.",
+    "auth.changePasswordTitle": "Create your password",
+    "auth.changePasswordHint": "Choose a password only you know; you will use it on future visits.",
+    "auth.newPassword": "New password",
+    "auth.confirmPassword": "Confirm password",
+    "auth.savePassword": "Save and continue",
     "profile.title": "My Profile",
     "profile.points": "Accumulated points",
     "profile.level": "Loyalty level",
@@ -119,6 +170,18 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "profile.memberSince": "Member since",
     "profile.totalOrders": "Total orders",
     "profile.nextLevel": "points to next level",
+    "profile.loading": "Loading…",
+    "profile.loadError": "Could not load your information.",
+    "profile.ordersTitle": "Order history",
+    "profile.orderNumber": "Order",
+    "profile.orderStatus": "Status",
+    "profile.orderTotal": "Total",
+    "profile.pointsSummary": "Points summary",
+    "profile.pointsEarnedTotal": "Total earned",
+    "profile.pointsSpentTotal": "Total spent",
+    "profile.noOrders": "No orders yet.",
+    "profile.noMovements": "No point movements yet.",
+    "profile.balanceAfter": "Balance",
     "loyalty.gatito": "New Kitty",
     "loyalty.michi": "Loyal Michi",
     "loyalty.vip": "Michi VIP",
