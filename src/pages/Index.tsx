@@ -73,13 +73,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section with Video */}
-      <section className="relative overflow-hidden min-h-[85vh] flex items-center">
-        <div className="absolute inset-0 overflow-hidden">
+      {/* Hero Section with Video — iframe 16:9 con “cover” (equivalente a object-fit: cover) */}
+      <section className="relative overflow-hidden min-h-[100svh] flex items-center">
+        <div className="absolute inset-0 overflow-hidden bg-black">
           <iframe
             src={heroIframeSrc}
             title="Miau Miau Video"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[300%] min-h-[300%] sm:min-w-[200%] sm:min-h-[200%] md:min-w-[150%] md:min-h-[150%] lg:min-w-[120%] lg:min-h-[120%] pointer-events-none"
+            className="pointer-events-none absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2 border-0 h-[56.25vw] min-h-[100svh] w-screen min-w-[177.78svh]"
             allow="autoplay; encrypted-media"
             allowFullScreen
           />
@@ -206,43 +206,42 @@ const Index = () => {
         </div>
 
         <div className="absolute bottom-0 left-0 w-full">
-          <WaveDivider color="hsl(var(--section-sky))" />
+          <WaveDivider
+            color={
+              !promotionsLoading && !promotionsError && featuredPromos.length > 0
+                ? "hsl(var(--section-sky))"
+                : "hsl(var(--section-mint))"
+            }
+          />
         </div>
       </section>
 
-      {/* Featured Promotions - Sky section */}
-      <section className="bg-section-sky py-16 md:py-20 paw-pattern relative">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2
-              className="text-3xl md:text-5xl font-black text-foreground"
-              style={{ fontFamily: "'Fredoka', sans-serif" }}
-            >
-              {t("promos.title")}
-            </h2>
-            <p className="text-muted-foreground mt-3 text-lg">{t("promos.subtitle")}</p>
-            <div className="w-24 h-1 bg-primary rounded-full mx-auto mt-4" />
+      {/* Featured Promotions - Sky section (solo si hay promociones) */}
+      {!promotionsLoading && !promotionsError && featuredPromos.length > 0 && (
+        <section className="bg-section-sky py-16 md:py-20 paw-pattern relative">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2
+                className="text-3xl md:text-5xl font-black text-foreground"
+                style={{ fontFamily: "'Fredoka', sans-serif" }}
+              >
+                {t("promos.title")}
+              </h2>
+              <p className="text-muted-foreground mt-3 text-lg">{t("promos.subtitle")}</p>
+              <div className="w-24 h-1 bg-primary rounded-full mx-auto mt-4" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {featuredPromos.map((promo) => (
+                <PromoCard key={promo.id} promotion={promo} />
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {promotionsLoading && (
-              <p className="md:col-span-2 text-center text-muted-foreground">Cargando promociones...</p>
-            )}
-            {!promotionsLoading && promotionsError && (
-              <p className="md:col-span-2 text-center text-red-500">{promotionsError}</p>
-            )}
-            {!promotionsLoading && !promotionsError && featuredPromos.length === 0 && (
-              <p className="md:col-span-2 text-center text-muted-foreground">No hay promociones vigentes por ahora.</p>
-            )}
-            {!promotionsLoading &&
-              !promotionsError &&
-              featuredPromos.map((promo) => <PromoCard key={promo.id} promotion={promo} />)}
-          </div>
-        </div>
 
-        <div className="absolute bottom-0 left-0 w-full">
-          <WaveDivider color="hsl(var(--section-mint))" />
-        </div>
-      </section>
+          <div className="absolute bottom-0 left-0 w-full">
+            <WaveDivider color="hsl(var(--section-mint))" />
+          </div>
+        </section>
+      )}
 
       {/* CTA Section - Mint */}
       <section className="bg-section-mint py-16 md:py-24">
