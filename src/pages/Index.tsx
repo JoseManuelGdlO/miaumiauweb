@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { products, packages } from "@/data/products";
 import { promotions } from "@/data/promotions";
@@ -6,10 +7,39 @@ import PromoCard from "@/components/PromoCard";
 import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
 import { Star, Truck, Heart, Award, PawPrint, Smartphone, Cat, Package } from "lucide-react";
+import { normalizeApiBaseUrl } from "@/lib/apiBase";
+import { buildHeroYoutubeEmbedSrc, DEFAULT_HERO_YOUTUBE_VIDEO_ID } from "@/lib/youtubeHero";
 
 const Index = () => {
   const { t } = useLanguage();
   const featuredPromos = promotions.slice(0, 2);
+  const [heroIframeSrc, setHeroIframeSrc] = useState(() =>
+    buildHeroYoutubeEmbedSrc(DEFAULT_HERO_YOUTUBE_VIDEO_ID)
+  );
+
+  useEffect(() => {
+    const base = normalizeApiBaseUrl(import.meta.env.VITE_API_BASE_URL);
+    if (!base) return;
+
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const res = await fetch(`${base}/public/site-settings`);
+        if (!res.ok || cancelled) return;
+        const json = (await res.json()) as { data?: { heroYoutubeVideoId?: string } };
+        const id = json?.data?.heroYoutubeVideoId;
+        if (typeof id === "string" && id.trim() && !cancelled) {
+          setHeroIframeSrc(buildHeroYoutubeEmbedSrc(id.trim()));
+        }
+      } catch {
+        /* mantiene el src por defecto */
+      }
+    };
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -17,7 +47,7 @@ const Index = () => {
       <section className="relative overflow-hidden min-h-[85vh] flex items-center">
         <div className="absolute inset-0 overflow-hidden">
           <iframe
-            src="https://www.youtube.com/embed/h3u-4RAwZSA?autoplay=1&mute=1&loop=1&playlist=h3u-4RAwZSA&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1"
+            src={heroIframeSrc}
             title="Miau Miau Video"
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[300%] min-h-[300%] sm:min-w-[200%] sm:min-h-[200%] md:min-w-[150%] md:min-h-[150%] lg:min-w-[120%] lg:min-h-[120%] pointer-events-none"
             allow="autoplay; encrypted-media"
