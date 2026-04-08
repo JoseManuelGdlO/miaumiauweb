@@ -18,6 +18,7 @@ export type TranslationKey =
   | "profile.pointsSummary" | "profile.pointsEarnedTotal" | "profile.pointsSpentTotal" | "profile.noOrders" | "profile.noMovements" | "profile.balanceAfter"
   | "loyalty.gatito" | "loyalty.michi" | "loyalty.vip"
   | "footer.rights" | "footer.contact" | "footer.followUs" | "footer.whatsapp"
+  | "ml.title" | "ml.subtitle" | "ml.cta"
   | "cta.whatsapp"
   | "whatsapp.cityTitle" | "whatsapp.citySubtitle" | "whatsapp.defaultMessage";
 
@@ -110,6 +111,10 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "footer.contact": "Contacto",
     "footer.followUs": "Síguenos",
     "footer.whatsapp": "Escríbenos por WhatsApp",
+    "ml.title": "También en Mercado Libre",
+    "ml.subtitle":
+      "Comprá arena Miau Miau con envío y la protección de compra que ofrece Mercado Libre.",
+    "ml.cta": "Ir a Mercado Libre",
     "cta.whatsapp": "¡Haz tu pedido por WhatsApp!",
     "whatsapp.cityTitle": "¿Desde qué ciudad nos visitas?",
     "whatsapp.citySubtitle": "Elige tu ciudad para abrir WhatsApp con el contacto de tu zona.",
@@ -203,6 +208,10 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "footer.contact": "Contact",
     "footer.followUs": "Follow us",
     "footer.whatsapp": "Message us on WhatsApp",
+    "ml.title": "Also on Mercado Libre",
+    "ml.subtitle":
+      "Buy Miau Miau litter with shipping and buyer protection through Mercado Libre.",
+    "ml.cta": "Shop on Mercado Libre",
     "cta.whatsapp": "Order via WhatsApp!",
     "whatsapp.cityTitle": "Which city are you contacting us from?",
     "whatsapp.citySubtitle": "Choose your city to open WhatsApp with the right local number.",

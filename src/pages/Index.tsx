@@ -1,49 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { usePublicSiteSettings } from "@/contexts/PublicSiteSettingsContext";
 import { products, packages } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import PromoCard from "@/components/PromoCard";
 import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
-import { Star, Truck, Heart, Award, PawPrint, Smartphone, Cat, Package } from "lucide-react";
-import { normalizeApiBaseUrl } from "@/lib/apiBase";
-import { buildHeroYoutubeEmbedSrc, DEFAULT_HERO_YOUTUBE_VIDEO_ID } from "@/lib/youtubeHero";
+import { Star, Truck, Heart, Award, PawPrint, Smartphone, Cat, Package, ExternalLink } from "lucide-react";
+import { buildHeroYoutubeEmbedSrc } from "@/lib/youtubeHero";
 import { fetchActivePromotions, type Promotion } from "@/lib/promotions";
 import { useWhatsAppCityOrder } from "@/components/WhatsAppCityPicker";
+
+/** Fondo de la sección Mercado Libre (debe coincidir con el WaveDivider previo). */
+const MERCADO_LIBRE_SECTION_BG = "hsl(43 80% 94%)";
 
 const Index = () => {
   const { t } = useLanguage();
   const { openOrder } = useWhatsAppCityOrder();
+  const { heroYoutubeVideoId, mercadolibreUrl } = usePublicSiteSettings();
+  const showMercadoLibre = Boolean(mercadolibreUrl);
+
+  const heroIframeSrc = useMemo(
+    () => buildHeroYoutubeEmbedSrc(heroYoutubeVideoId),
+    [heroYoutubeVideoId]
+  );
+
   const [featuredPromos, setFeaturedPromos] = useState<Promotion[]>([]);
   const [promotionsLoading, setPromotionsLoading] = useState(true);
   const [promotionsError, setPromotionsError] = useState("");
-  const [heroIframeSrc, setHeroIframeSrc] = useState(() =>
-    buildHeroYoutubeEmbedSrc(DEFAULT_HERO_YOUTUBE_VIDEO_ID)
-  );
-
-  useEffect(() => {
-    const base = normalizeApiBaseUrl(import.meta.env.VITE_API_BASE_URL);
-    if (!base) return;
-
-    let cancelled = false;
-    const load = async () => {
-      try {
-        const res = await fetch(`${base}/public/site-settings`);
-        if (!res.ok || cancelled) return;
-        const json = (await res.json()) as { data?: { heroYoutubeVideoId?: string } };
-        const id = json?.data?.heroYoutubeVideoId;
-        if (typeof id === "string" && id.trim() && !cancelled) {
-          setHeroIframeSrc(buildHeroYoutubeEmbedSrc(id.trim()));
-        }
-      } catch {
-        /* mantiene el src por defecto */
-      }
-    };
-    void load();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -211,7 +195,9 @@ const Index = () => {
             color={
               !promotionsLoading && !promotionsError && featuredPromos.length > 0
                 ? "hsl(var(--section-sky))"
-                : "hsl(var(--section-mint))"
+                : showMercadoLibre
+                  ? MERCADO_LIBRE_SECTION_BG
+                  : "hsl(var(--section-mint))"
             }
           />
         </div>
@@ -235,6 +221,44 @@ const Index = () => {
               {featuredPromos.map((promo) => (
                 <PromoCard key={promo.id} promotion={promo} />
               ))}
+            </div>
+          </div>
+
+          <div className="absolute bottom-0 left-0 w-full">
+            <WaveDivider
+              color={showMercadoLibre ? MERCADO_LIBRE_SECTION_BG : "hsl(var(--section-mint))"}
+            />
+          </div>
+        </section>
+      )}
+
+      {/* Mercado Libre — solo si hay URL configurada en el administrador */}
+      {showMercadoLibre && (
+        <section className="relative py-16 md:py-24" style={{ backgroundColor: MERCADO_LIBRE_SECTION_BG }}>
+          <div className="container mx-auto px-4 text-center">
+            <div className="max-w-2xl mx-auto space-y-6">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-200/80 text-amber-950">
+                <ExternalLink className="h-10 w-10" />
+              </div>
+              <h2
+                className="text-3xl md:text-5xl font-black text-foreground"
+                style={{ fontFamily: "'Fredoka', sans-serif" }}
+              >
+                {t("ml.title")}
+              </h2>
+              <p className="text-muted-foreground text-lg leading-relaxed">{t("ml.subtitle")}</p>
+              <Button
+                type="button"
+                size="lg"
+                variant="secondary"
+                className="text-lg px-10 py-7 rounded-full font-extrabold shadow-lg hover:shadow-xl hover:scale-105 transition-all mt-2 gap-2 bg-amber-400 hover:bg-amber-500 text-amber-950 border-0"
+                asChild
+              >
+                <a href={mercadolibreUrl} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="h-5 w-5" />
+                  {t("ml.cta")}
+                </a>
+              </Button>
             </div>
           </div>
 

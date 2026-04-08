@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { PublicSiteSettingsProvider } from "@/contexts/PublicSiteSettingsContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import RequireAuth from "@/components/RequireAuth";
 import Navbar from "@/components/Navbar";
@@ -22,6 +23,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <LanguageProvider>
+        <PublicSiteSettingsProvider>
         <AuthProvider>
         <WhatsAppCityPickerProvider>
           <Toaster />
@@ -47,6 +49,7 @@ const App = () => (
           </BrowserRouter>
         </WhatsAppCityPickerProvider>
         </AuthProvider>
+        </PublicSiteSettingsProvider>
       </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
