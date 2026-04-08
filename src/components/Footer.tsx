@@ -1,10 +1,12 @@
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useWhatsAppCityOrder } from "@/components/WhatsAppCityPicker";
 import { Heart, PawPrint, Smartphone, Instagram, Facebook, Music } from "lucide-react";
-import brandLogo from "@/assets/brand-logo.png";
+import siteLogo from "@/assets/logo.jpg";
 import WaveDivider from "./WaveDivider";
 
 const Footer = () => {
   const { t } = useLanguage();
+  const { openOrder } = useWhatsAppCityOrder();
 
   return (
     <div>
@@ -15,7 +17,7 @@ const Footer = () => {
             {/* Brand */}
             <div className="flex flex-col items-center md:items-start gap-3">
               <div className="flex items-center gap-3">
-                <img src={brandLogo} alt="Miau Miau" className="h-12 w-12 rounded-full object-cover border-2 border-primary" />
+                <img src={siteLogo} alt="Miau Miau" className="h-10 w-auto max-w-[160px] object-contain" />
                 <span className="text-2xl font-extrabold" style={{ fontFamily: "'Fredoka', sans-serif" }}>Miau Miau</span>
               </div>
               <p className="text-sm opacity-80 text-center md:text-left inline-flex items-center gap-1.5">
@@ -26,14 +28,13 @@ const Footer = () => {
             {/* Contact */}
             <div className="text-center md:text-left">
               <h4 className="font-bold mb-3 text-lg" style={{ fontFamily: "'Fredoka', sans-serif" }}>{t("footer.contact")}</h4>
-              <a
-                href="https://wa.me/521234567890"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm opacity-80 hover:opacity-100 transition-opacity inline-flex items-center gap-1.5"
+              <button
+                type="button"
+                onClick={() => openOrder(t("whatsapp.defaultMessage"))}
+                className="text-sm opacity-80 hover:opacity-100 transition-opacity inline-flex items-center gap-1.5 text-left bg-transparent border-0 p-0 cursor-pointer text-inherit"
               >
-                <Smartphone className="h-4 w-4" /> {t("footer.whatsapp")}
-              </a>
+                <Smartphone className="h-4 w-4 shrink-0" /> {t("footer.whatsapp")}
+              </button>
             </div>
 
             {/* Social */}

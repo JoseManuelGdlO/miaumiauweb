@@ -1,0 +1,40 @@
+# Dispara un despliegue en Easypanel al hacer push a main/master.
+#
+# Configuración en GitHub → Settings → Secrets → Actions:
+#   EASYPANEL_DEPLOY_WEBHOOK_URL = URL del "Deploy Webhook" del servicio en Easypanel
+# Opcional:
+#   EASYPANEL_DEPLOY_WEBHOOK_TOKEN = si tu webhook exige Authorization: Bearer …
+#
+# Alternativa sin Actions: en Easypanel activa "Auto Deploy" para que el panel
+# registre el webhook en GitHub automáticamente (Settings → Webhooks del repo).
+
+name: Easypanel deploy
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: easypanel-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Easypanel deployment
+        env:
+          WEBHOOK_URL: ${{ secrets.EASYPANEL_DEPLOY_WEBHOOK_URL }}
+          WEBHOOK_TOKEN: ${{ secrets.EASYPANEL_DEPLOY_WEBHOOK_TOKEN }}
+        run: |
+          if [ -z "${WEBHOOK_URL}" ]; then
+            echo "::notice::Secret EASYPANEL_DEPLOY_WEBHOOK_URL no está definido. Añádelo en GitHub Actions secrets o usa Auto Deploy desde Easypanel."
+            exit 0
+          fi
+          set -e
+          CURL_ARGS=(-fsS -X POST "$WEBHOOK_URL" -H "Accept: application/json")
+          if [ -n "${WEBHOOK_TOKEN:-}" ]; then
+            CURL_ARGS+=(-H "Authorization: Bearer ${WEBHOOK_TOKEN}")
+          fi
+          curl "${CURL_ARGS[@]}"

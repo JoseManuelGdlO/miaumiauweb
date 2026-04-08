@@ -1,7 +1,5 @@
-# Imagen de producción (nginx + estáticos Vite).
-# Duplicado de dockerizer/Dockerfile: Easypanel y Docker por defecto buscan Dockerfile en la raíz.
-# Si cambias uno, actualiza el otro.
-
+# Misma definición que /Dockerfile en la raíz (npm run docker:* usa esta ruta).
+# build stage
 FROM node:20 AS build
 WORKDIR /app
 
@@ -19,6 +17,7 @@ RUN rm -rf node_modules/.cache dist && \
     npm cache clean --force && \
     npm prune --production
 
+# production stage
 FROM nginx:stable AS production
 
 RUN rm -rf /var/cache/nginx/* /tmp/* /var/tmp/*

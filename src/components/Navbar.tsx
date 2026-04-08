@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Menu, X, Globe, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import brandLogo from "@/assets/brand-logo.png";
+import siteLogo from "@/assets/logo.jpg";
 
 const Navbar = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -26,7 +26,11 @@ const Navbar = () => {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <img src={brandLogo} alt="Miau Miau" className="h-12 w-12 rounded-full object-cover border-2 border-primary shadow-md" />
+            <img
+              src={siteLogo}
+              alt="Miau Miau"
+              className="h-10 sm:h-12 w-auto max-w-[200px] object-contain object-left"
+            />
             <span className="text-2xl font-extrabold text-primary" style={{ fontFamily: "'Fredoka', sans-serif" }}>
               Miau Miau
             </span>

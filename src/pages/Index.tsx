@@ -9,9 +9,11 @@ import { Star, Truck, Heart, Award, PawPrint, Smartphone, Cat, Package } from "l
 import { normalizeApiBaseUrl } from "@/lib/apiBase";
 import { buildHeroYoutubeEmbedSrc, DEFAULT_HERO_YOUTUBE_VIDEO_ID } from "@/lib/youtubeHero";
 import { fetchActivePromotions, type Promotion } from "@/lib/promotions";
+import { useWhatsAppCityOrder } from "@/components/WhatsAppCityPicker";
 
 const Index = () => {
   const { t } = useLanguage();
+  const { openOrder } = useWhatsAppCityOrder();
   const [featuredPromos, setFeaturedPromos] = useState<Promotion[]>([]);
   const [promotionsLoading, setPromotionsLoading] = useState(true);
   const [promotionsError, setPromotionsError] = useState("");
@@ -102,16 +104,15 @@ const Index = () => {
               <p className="text-lg md:text-xl text-muted-foreground max-w-md">
                 {t("hero.subtitle")}
               </p>
-              <a
-                href="https://wa.me/521234567890"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Button
+                type="button"
+                size="lg"
+                className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-2 gap-2"
+                onClick={() => openOrder(t("whatsapp.defaultMessage"))}
               >
-                <Button size="lg" className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-2 gap-2">
-                  <Smartphone className="h-5 w-5" />
-                  {t("hero.cta")}
-                </Button>
-              </a>
+                <Smartphone className="h-5 w-5" />
+                {t("hero.cta")}
+              </Button>
             </div>
           </div>
         </div>
@@ -259,16 +260,15 @@ const Index = () => {
             <p className="text-muted-foreground text-lg">
               {t("hero.subtitle")}
             </p>
-            <a
-              href="https://wa.me/521234567890"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Button
+              type="button"
+              size="lg"
+              className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-4 gap-2"
+              onClick={() => openOrder(t("whatsapp.defaultMessage"))}
             >
-              <Button size="lg" className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-green-500 hover:bg-green-600 text-white mt-4 gap-2">
-                <Smartphone className="h-5 w-5" />
-                {t("hero.cta")}
-              </Button>
-            </a>
+              <Smartphone className="h-5 w-5" />
+              {t("hero.cta")}
+            </Button>
           </div>
         </div>
       </section>

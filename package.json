@@ -10,7 +10,12 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "docker:build": "docker build -f dockerizer/Dockerfile -t miaumiauweb:latest .",
+    "docker:build:clean": "bash dockerizer/build.sh",
+    "docker:deploy": "bash dockerizer/deploy.sh",
+    "docker:clean": "docker system prune -af && docker builder prune -af",
+    "clean": "rm -rf node_modules dist .vite && npm cache clean --force"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

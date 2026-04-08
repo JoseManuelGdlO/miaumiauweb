@@ -1,6 +1,9 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerizer/Dockerfile
+    image: miaumiauweb:latest
     container_name: miaumiauweb
     restart: unless-stopped
     ports:

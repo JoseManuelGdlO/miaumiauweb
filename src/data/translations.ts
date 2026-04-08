@@ -11,7 +11,8 @@ export type TranslationKey =
   | "profile.title" | "profile.points" | "profile.level" | "profile.history" | "profile.date" | "profile.action" | "profile.amount" | "profile.memberSince" | "profile.totalOrders" | "profile.nextLevel"
   | "loyalty.gatito" | "loyalty.michi" | "loyalty.vip"
   | "footer.rights" | "footer.contact" | "footer.followUs" | "footer.whatsapp"
-  | "cta.whatsapp";
+  | "cta.whatsapp"
+  | "whatsapp.cityTitle" | "whatsapp.citySubtitle" | "whatsapp.defaultMessage";
 
 export const translations: Record<Language, Record<TranslationKey, string>> = {
   es: {
@@ -68,6 +69,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "footer.followUs": "Síguenos",
     "footer.whatsapp": "Escríbenos por WhatsApp",
     "cta.whatsapp": "¡Haz tu pedido por WhatsApp!",
+    "whatsapp.cityTitle": "¿Desde qué ciudad nos visitas?",
+    "whatsapp.citySubtitle": "Elige tu ciudad para abrir WhatsApp con el contacto de tu zona.",
+    "whatsapp.defaultMessage": "¡Hola! Me gustaría hacer un pedido de arena Miau Miau",
   },
   en: {
     "nav.home": "Home",
@@ -123,5 +127,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "footer.followUs": "Follow us",
     "footer.whatsapp": "Message us on WhatsApp",
     "cta.whatsapp": "Order via WhatsApp!",
+    "whatsapp.cityTitle": "Which city are you contacting us from?",
+    "whatsapp.citySubtitle": "Choose your city to open WhatsApp with the right local number.",
+    "whatsapp.defaultMessage": "Hi! I'd like to place an order for Miau Miau cat litter",
   },
 };
