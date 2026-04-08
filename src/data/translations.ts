@@ -10,6 +10,7 @@ export type TranslationKey =
   | "auth.login" | "auth.register" | "auth.email" | "auth.password" | "auth.name" | "auth.phone" | "auth.address" | "auth.submit" | "auth.switchLogin" | "auth.switchRegister"
   | "auth.apiMissing" | "auth.errorLogin" | "auth.passwordTooShort" | "auth.passwordMismatch" | "auth.errorChange" | "auth.loggingIn"
   | "auth.whatsappOnly" | "auth.firstTimeTitle" | "auth.firstTimeStep1" | "auth.firstTimeStep2" | "auth.firstTimeStep3"
+  | "auth.orderNumber" | "auth.orderNumberPlaceholder" | "auth.orderNumberHint"
   | "auth.changePasswordTitle" | "auth.changePasswordHint" | "auth.newPassword" | "auth.confirmPassword" | "auth.savePassword"
   | "profile.title" | "profile.points" | "profile.level" | "profile.history" | "profile.date" | "profile.action" | "profile.amount" | "profile.memberSince" | "profile.totalOrders" | "profile.nextLevel"
   | "profile.loading" | "profile.loadError" | "profile.ordersTitle" | "profile.orderNumber" | "profile.orderStatus" | "profile.orderTotal"
@@ -65,9 +66,12 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "auth.whatsappOnly":
       "Solo tienen cuenta quienes ya han comprado con nosotros por WhatsApp. Usa el mismo teléfono con el que pediste.",
     "auth.firstTimeTitle": "¿Primera vez aquí?",
-    "auth.firstTimeStep1": "Ingresa tu teléfono y como contraseña tu apellido (como aparece en tu nombre registrado).",
-    "auth.firstTimeStep2": "Te pediremos crear una contraseña nueva y segura.",
-    "auth.firstTimeStep3": "Listo: podrás ver tus pedidos y tus puntos de lealtad.",
+    "auth.firstTimeStep1": "Ingresa tu teléfono, tu contraseña (o tu apellido si es tu primera vez) y el número de pedido que te enviamos por WhatsApp.",
+    "auth.firstTimeStep2": "Comprobamos que el pedido coincida con tu cuenta; luego podrás crear una contraseña nueva si te lo pedimos.",
+    "auth.firstTimeStep3": "En visitas siguientes solo necesitarás teléfono y contraseña (el número de pedido solo la primera vez que verifiques).",
+    "auth.orderNumber": "Número de pedido (WhatsApp)",
+    "auth.orderNumberPlaceholder": "Ej. PED-1730000000000-123",
+    "auth.orderNumberHint": "El que recibiste en el mensaje al confirmar tu compra. La primera vez que entres debemos comprobarlo; después no hace falta.",
     "auth.changePasswordTitle": "Crea tu contraseña",
     "auth.changePasswordHint": "Elige una contraseña que solo tú conozcas; la usarás en tus próximas visitas.",
     "auth.newPassword": "Nueva contraseña",
@@ -152,9 +156,12 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "auth.whatsappOnly":
       "Only customers who have ordered via WhatsApp have an account. Use the same phone number you used to order.",
     "auth.firstTimeTitle": "First time here?",
-    "auth.firstTimeStep1": "Enter your phone and use your last name as your password (as shown on your registered name).",
-    "auth.firstTimeStep2": "We will ask you to create a new secure password.",
-    "auth.firstTimeStep3": "Then you can view your orders and loyalty points.",
+    "auth.firstTimeStep1": "Enter your phone, your password (or your last name on first access), and the order number we sent you on WhatsApp.",
+    "auth.firstTimeStep2": "We verify the order belongs to your account; then you may set a new password if prompted.",
+    "auth.firstTimeStep3": "On later visits you only need phone and password (order number is only required the first time you verify).",
+    "auth.orderNumber": "Order number (WhatsApp)",
+    "auth.orderNumberPlaceholder": "e.g. PED-1730000000000-123",
+    "auth.orderNumberHint": "From the message when your order was confirmed. Required the first time you sign in; not needed afterward.",
     "auth.changePasswordTitle": "Create your password",
     "auth.changePasswordHint": "Choose a password only you know; you will use it on future visits.",
     "auth.newPassword": "New password",

@@ -11,7 +11,11 @@ type AuthContextType = {
   token: string | null;
   cliente: PortalCliente | null;
   isReady: boolean;
-  login: (telefono: string, password: string) => Promise<{ mustChangePassword: boolean; cliente: PortalCliente }>;
+  login: (
+    telefono: string,
+    password: string,
+    numeroPedido: string
+  ) => Promise<{ mustChangePassword: boolean; cliente: PortalCliente }>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
   logout: () => void;
 };
@@ -35,13 +39,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setCliente(null);
   }, []);
 
-  const login = useCallback(async (telefono: string, password: string) => {
+  const login = useCallback(async (telefono: string, password: string, numeroPedido: string) => {
     const json = await portalFetch<{
       success: boolean;
       data: { token: string; mustChangePassword: boolean; cliente: PortalCliente };
     }>("/portal/auth/login", {
       method: "POST",
-      body: JSON.stringify({ telefono, password }),
+      body: JSON.stringify({ telefono, password, numero_pedido: numeroPedido.trim() }),
       token: null,
     });
     const { token: t, mustChangePassword, cliente: cl } = json.data;

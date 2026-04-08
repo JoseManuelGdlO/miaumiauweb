@@ -22,6 +22,7 @@ const Auth = () => {
   const { login, changePassword } = useAuth();
   const [telefono, setTelefono] = useState("");
   const [password, setPassword] = useState("");
+  const [numeroPedido, setNumeroPedido] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showChangeModal, setShowChangeModal] = useState(false);
@@ -38,7 +39,7 @@ const Auth = () => {
     }
     setLoading(true);
     try {
-      const { mustChangePassword } = await login(telefono, password);
+      const { mustChangePassword } = await login(telefono, password, numeroPedido);
       if (mustChangePassword) {
         setCurrentForChange(password);
         setShowChangeModal(true);
@@ -120,6 +121,19 @@ const Auth = () => {
                 className="rounded-xl"
                 required
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="orderNum">{t("auth.orderNumber")}</Label>
+              <Input
+                id="orderNum"
+                type="text"
+                autoComplete="off"
+                value={numeroPedido}
+                onChange={(e) => setNumeroPedido(e.target.value)}
+                placeholder={t("auth.orderNumberPlaceholder")}
+                className="rounded-xl"
+              />
+              <p className="text-xs text-muted-foreground leading-relaxed">{t("auth.orderNumberHint")}</p>
             </div>
             {error && !showChangeModal && (
               <p className="text-sm text-destructive font-medium">{error}</p>
