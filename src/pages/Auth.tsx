@@ -16,10 +16,13 @@ import {
 } from "@/components/ui/dialog";
 import { getApiBase } from "@/lib/portalApi";
 
+type LoginFlow = "first" | "returning";
+
 const Auth = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const { login, changePassword } = useAuth();
+  const [flow, setFlow] = useState<LoginFlow>("first");
   const [telefono, setTelefono] = useState("");
   const [password, setPassword] = useState("");
   const [numeroPedido, setNumeroPedido] = useState("");
@@ -39,9 +42,12 @@ const Auth = () => {
     }
     setLoading(true);
     try {
-      const { mustChangePassword } = await login(telefono, password, numeroPedido);
+      const { mustChangePassword } =
+        flow === "first"
+          ? await login({ flow: "first", telefono, numeroPedido })
+          : await login({ flow: "returning", telefono, password });
       if (mustChangePassword) {
-        setCurrentForChange(password);
+        setCurrentForChange(flow === "returning" ? password : "");
         setShowChangeModal(true);
         setLoading(false);
         return;
@@ -85,14 +91,36 @@ const Auth = () => {
           <div className="text-5xl mb-2">🐱</div>
           <CardTitle className="text-2xl font-extrabold text-foreground">{t("auth.login")}</CardTitle>
           <p className="text-sm text-muted-foreground text-left leading-relaxed">{t("auth.whatsappOnly")}</p>
-          <div className="text-left text-sm bg-muted/50 rounded-xl p-3 space-y-1 border border-border">
-            <p className="font-bold text-foreground">{t("auth.firstTimeTitle")}</p>
-            <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
-              <li>{t("auth.firstTimeStep1")}</li>
-              <li>{t("auth.firstTimeStep2")}</li>
-              <li>{t("auth.firstTimeStep3")}</li>
-            </ol>
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant={flow === "first" ? "default" : "outline"}
+              className="flex-1 rounded-xl"
+              onClick={() => setFlow("first")}
+            >
+              {t("auth.flowFirst")}
+            </Button>
+            <Button
+              type="button"
+              variant={flow === "returning" ? "default" : "outline"}
+              className="flex-1 rounded-xl"
+              onClick={() => setFlow("returning")}
+            >
+              {t("auth.flowReturning")}
+            </Button>
           </div>
+          {flow === "first" ? (
+            <div className="text-left text-sm bg-muted/50 rounded-xl p-3 space-y-1 border border-border">
+              <p className="font-bold text-foreground">{t("auth.firstTimeTitle")}</p>
+              <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
+                <li>{t("auth.firstTimeStep1")}</li>
+                <li>{t("auth.firstTimeStep2")}</li>
+                <li>{t("auth.firstTimeStep3")}</li>
+              </ol>
+            </div>
+          ) : (
+            <p className="text-left text-sm text-muted-foreground leading-relaxed">{t("auth.returningHint")}</p>
+          )}
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
@@ -109,32 +137,37 @@ const Auth = () => {
                 required
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">{t("auth.password")}</Label>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="rounded-xl"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="orderNum">{t("auth.orderNumber")}</Label>
-              <Input
-                id="orderNum"
-                type="text"
-                autoComplete="off"
-                value={numeroPedido}
-                onChange={(e) => setNumeroPedido(e.target.value)}
-                placeholder={t("auth.orderNumberPlaceholder")}
-                className="rounded-xl"
-              />
-              <p className="text-xs text-muted-foreground leading-relaxed">{t("auth.orderNumberHint")}</p>
-            </div>
+            {flow === "returning" && (
+              <div className="space-y-2">
+                <Label htmlFor="password">{t("auth.password")}</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="rounded-xl"
+                  required
+                />
+              </div>
+            )}
+            {flow === "first" && (
+              <div className="space-y-2">
+                <Label htmlFor="orderNum">{t("auth.orderNumber")}</Label>
+                <Input
+                  id="orderNum"
+                  type="text"
+                  autoComplete="off"
+                  value={numeroPedido}
+                  onChange={(e) => setNumeroPedido(e.target.value)}
+                  placeholder={t("auth.orderNumberPlaceholder")}
+                  className="rounded-xl"
+                  required
+                />
+                <p className="text-xs text-muted-foreground leading-relaxed">{t("auth.orderNumberHint")}</p>
+              </div>
+            )}
             {error && !showChangeModal && (
               <p className="text-sm text-destructive font-medium">{error}</p>
             )}

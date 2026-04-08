@@ -7,15 +7,15 @@ export type PortalCliente = {
   telefono: string;
 };
 
+export type LoginParams =
+  | { flow: "first"; telefono: string; numeroPedido: string }
+  | { flow: "returning"; telefono: string; password: string };
+
 type AuthContextType = {
   token: string | null;
   cliente: PortalCliente | null;
   isReady: boolean;
-  login: (
-    telefono: string,
-    password: string,
-    numeroPedido: string
-  ) => Promise<{ mustChangePassword: boolean; cliente: PortalCliente }>;
+  login: (params: LoginParams) => Promise<{ mustChangePassword: boolean; cliente: PortalCliente }>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
   logout: () => void;
 };
@@ -39,13 +39,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setCliente(null);
   }, []);
 
-  const login = useCallback(async (telefono: string, password: string, numeroPedido: string) => {
+  const login = useCallback(async (params: LoginParams) => {
+    const body =
+      params.flow === "first"
+        ? { telefono: params.telefono, numero_pedido: params.numeroPedido.trim() }
+        : { telefono: params.telefono, password: params.password };
     const json = await portalFetch<{
       success: boolean;
       data: { token: string; mustChangePassword: boolean; cliente: PortalCliente };
     }>("/portal/auth/login", {
       method: "POST",
-      body: JSON.stringify({ telefono, password, numero_pedido: numeroPedido.trim() }),
+      body: JSON.stringify(body),
       token: null,
     });
     const { token: t, mustChangePassword, cliente: cl } = json.data;
