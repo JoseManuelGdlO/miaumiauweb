@@ -14,6 +14,8 @@ RUN npm ci --no-audit --no-fund && \
     npm cache clean --force
 
 COPY . .
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 RUN rm -rf node_modules/.cache dist && \
     npm run build && \
     npm cache clean --force && \

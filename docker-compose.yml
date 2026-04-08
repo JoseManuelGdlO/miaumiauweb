@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: dockerizer/Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
     image: miaumiauweb:latest
     container_name: miaumiauweb
     restart: unless-stopped
