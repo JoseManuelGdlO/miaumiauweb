@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    container_name: miaumiauweb
+    restart: unless-stopped
+    ports:
+      - "80:80"
