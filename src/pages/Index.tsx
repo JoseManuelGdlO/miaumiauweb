@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { products, packages } from "@/data/products";
-import { promotions } from "@/data/promotions";
 import ProductCard from "@/components/ProductCard";
 import PromoCard from "@/components/PromoCard";
 import WaveDivider from "@/components/WaveDivider";
@@ -9,10 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Star, Truck, Heart, Award, PawPrint, Smartphone, Cat, Package } from "lucide-react";
 import { normalizeApiBaseUrl } from "@/lib/apiBase";
 import { buildHeroYoutubeEmbedSrc, DEFAULT_HERO_YOUTUBE_VIDEO_ID } from "@/lib/youtubeHero";
+import { fetchActivePromotions, type Promotion } from "@/lib/promotions";
 
 const Index = () => {
   const { t } = useLanguage();
-  const featuredPromos = promotions.slice(0, 2);
+  const [featuredPromos, setFeaturedPromos] = useState<Promotion[]>([]);
+  const [promotionsLoading, setPromotionsLoading] = useState(true);
+  const [promotionsError, setPromotionsError] = useState("");
   const [heroIframeSrc, setHeroIframeSrc] = useState(() =>
     buildHeroYoutubeEmbedSrc(DEFAULT_HERO_YOUTUBE_VIDEO_ID)
   );
@@ -36,6 +38,34 @@ const Index = () => {
       }
     };
     void load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadPromotions = async () => {
+      setPromotionsLoading(true);
+      setPromotionsError("");
+      try {
+        const promotions = await fetchActivePromotions();
+        if (!cancelled) {
+          setFeaturedPromos(promotions);
+        }
+      } catch {
+        if (!cancelled) {
+          setPromotionsError("No pudimos cargar promociones en este momento.");
+        }
+      } finally {
+        if (!cancelled) {
+          setPromotionsLoading(false);
+        }
+      }
+    };
+
+    void loadPromotions();
     return () => {
       cancelled = true;
     };
@@ -194,9 +224,18 @@ const Index = () => {
             <div className="w-24 h-1 bg-primary rounded-full mx-auto mt-4" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {featuredPromos.map((promo) => (
-              <PromoCard key={promo.id} promotion={promo} />
-            ))}
+            {promotionsLoading && (
+              <p className="md:col-span-2 text-center text-muted-foreground">Cargando promociones...</p>
+            )}
+            {!promotionsLoading && promotionsError && (
+              <p className="md:col-span-2 text-center text-red-500">{promotionsError}</p>
+            )}
+            {!promotionsLoading && !promotionsError && featuredPromos.length === 0 && (
+              <p className="md:col-span-2 text-center text-muted-foreground">No hay promociones vigentes por ahora.</p>
+            )}
+            {!promotionsLoading &&
+              !promotionsError &&
+              featuredPromos.map((promo) => <PromoCard key={promo.id} promotion={promo} />)}
           </div>
         </div>
 

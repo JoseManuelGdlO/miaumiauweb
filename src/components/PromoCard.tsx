@@ -1,5 +1,5 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Promotion } from "@/data/promotions";
+import type { Promotion } from "@/lib/promotions";
 import { Badge } from "@/components/ui/badge";
 import { Gift, Truck, Star, Cat } from "lucide-react";
 
