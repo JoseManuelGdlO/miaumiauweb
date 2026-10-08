@@ -1,5 +1,7 @@
 import { MessageCircle } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { usePublicSiteSettings } from "@/contexts/PublicSiteSettingsContext";
 import { useWhatsAppCityOrder } from "@/components/WhatsAppCityPicker";
 
 interface WhatsAppButtonProps {
@@ -10,6 +12,11 @@ interface WhatsAppButtonProps {
 const WhatsAppButton = ({ message, className }: WhatsAppButtonProps) => {
   const { t } = useLanguage();
   const { openOrder } = useWhatsAppCityOrder();
+  const { pathname } = useLocation();
+  const { qrActions } = usePublicSiteSettings();
+  const onQrPage = pathname === "/QR" || pathname === "/qr";
+
+  if (onQrPage && !qrActions.whatsapp) return null;
 
   return (
     <button
