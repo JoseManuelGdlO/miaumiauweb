@@ -16,6 +16,7 @@ import Promotions from "./pages/Promotions";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import QrLanding from "./pages/QrLanding";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,8 @@ const App = () => (
             <Navbar />
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/QR" element={<QrLanding />} />
+              <Route path="/qr" element={<QrLanding />} />
               <Route path="/promotions" element={<Promotions />} />
               <Route path="/auth" element={<Auth />} />
               <Route
