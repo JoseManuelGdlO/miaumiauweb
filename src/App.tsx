@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { PublicSiteSettingsProvider } from "@/contexts/PublicSiteSettingsContext";
+import { PublicSiteSettingsProvider, usePublicSiteSettings } from "@/contexts/PublicSiteSettingsContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import RequireAuth from "@/components/RequireAuth";
 import Navbar from "@/components/Navbar";
@@ -17,18 +17,20 @@ import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import QrLanding from "./pages/QrLanding";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
 const AppRoutes = () => {
   const { pathname } = useLocation();
-  const showSiteChrome = pathname !== "/";
+  const { loading, maintenancePlaceholder } = usePublicSiteSettings();
+  const showPlaceholder = pathname === "/" && (loading || maintenancePlaceholder);
 
   return (
     <>
-      {showSiteChrome && <Navbar />}
+      {!showPlaceholder && <Navbar />}
       <Routes>
-        <Route path="/" element={<MaintenancePlaceholder />} />
+        <Route path="/" element={showPlaceholder ? <MaintenancePlaceholder /> : <Index />} />
         <Route path="/QR" element={<QrLanding />} />
         <Route path="/qr" element={<QrLanding />} />
         <Route path="/promotions" element={<Promotions />} />
@@ -43,8 +45,8 @@ const AppRoutes = () => {
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {showSiteChrome && <Footer />}
-      {showSiteChrome && <WhatsAppButton />}
+      {!showPlaceholder && <Footer />}
+      {!showPlaceholder && <WhatsAppButton />}
     </>
   );
 };

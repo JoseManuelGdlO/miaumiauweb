@@ -22,6 +22,7 @@ export interface QrActions {
   linksHtml: string;
   linksPanelColor: string;
   linksBubbleColor: string;
+  linksBubbleTextColor: string;
   linksTextColor: string;
 }
 
@@ -39,6 +40,7 @@ export const DEFAULT_QR_ACTIONS: QrActions = {
   linksHtml: "",
   linksPanelColor: "#fff7ed",
   linksBubbleColor: "#16a34a",
+  linksBubbleTextColor: "#1c1917",
   linksTextColor: "#1c1917",
 };
 
@@ -52,6 +54,7 @@ export interface PublicSiteSettingsValue {
   socialTiktokUrl: string;
   mercadolibreUrl: string;
   qrActions: QrActions;
+  maintenancePlaceholder: boolean;
 }
 
 function normalizeQrLinks(raw: Partial<QrActions> | undefined): QrLink[] {
@@ -91,6 +94,7 @@ function normalizeQrActions(raw: Partial<QrActions> | undefined): QrActions {
     linksHtml: typeof raw?.linksHtml === "string" ? raw.linksHtml : "",
     linksPanelColor: normalizeHexColor(raw?.linksPanelColor, DEFAULT_QR_ACTIONS.linksPanelColor),
     linksBubbleColor: normalizeHexColor(raw?.linksBubbleColor, DEFAULT_QR_ACTIONS.linksBubbleColor),
+    linksBubbleTextColor: normalizeHexColor(raw?.linksBubbleTextColor, DEFAULT_QR_ACTIONS.linksBubbleTextColor),
     linksTextColor: normalizeHexColor(raw?.linksTextColor, DEFAULT_QR_ACTIONS.linksTextColor),
   };
 }
@@ -110,6 +114,7 @@ const defaultValue: PublicSiteSettingsValue = {
   socialTiktokUrl: "",
   mercadolibreUrl: "",
   qrActions: DEFAULT_QR_ACTIONS,
+  maintenancePlaceholder: true,
 };
 
 const PublicSiteSettingsContext = createContext<PublicSiteSettingsValue>(defaultValue);
@@ -142,6 +147,7 @@ export const PublicSiteSettingsProvider = ({ children }: { children: ReactNode }
             socialTiktokUrl?: string;
             mercadolibreUrl?: string;
             qrActions?: Partial<QrActions>;
+            maintenancePlaceholder?: boolean;
           };
         };
         const d = json?.data;
@@ -159,6 +165,7 @@ export const PublicSiteSettingsProvider = ({ children }: { children: ReactNode }
           socialTiktokUrl: typeof d?.socialTiktokUrl === "string" ? d.socialTiktokUrl.trim() : "",
           mercadolibreUrl: typeof d?.mercadolibreUrl === "string" ? d.mercadolibreUrl.trim() : "",
           qrActions: normalizeQrActions(d?.qrActions),
+          maintenancePlaceholder: d?.maintenancePlaceholder !== false,
         });
       } catch {
         if (!cancelled) {
