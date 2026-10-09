@@ -20,7 +20,8 @@ export type TranslationKey =
   | "footer.rights" | "footer.contact" | "footer.followUs" | "footer.whatsapp"
   | "ml.title" | "ml.subtitle" | "ml.cta"
   | "cta.whatsapp"
-  | "whatsapp.cityTitle" | "whatsapp.citySubtitle" | "whatsapp.defaultMessage";
+  | "whatsapp.cityTitle" | "whatsapp.citySubtitle" | "whatsapp.defaultMessage"
+  | "whatsapp.cityLoading" | "whatsapp.cityEmpty" | "whatsapp.cityError";
 
 export const translations: Record<Language, Record<TranslationKey, string>> = {
   es: {
@@ -119,6 +120,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "whatsapp.cityTitle": "¿Desde qué ciudad nos visitas?",
     "whatsapp.citySubtitle": "Elige tu ciudad para abrir WhatsApp con el contacto de tu zona.",
     "whatsapp.defaultMessage": "¡Hola! Me gustaría hacer un pedido de arena Miau Miau",
+    "whatsapp.cityLoading": "Cargando ciudades…",
+    "whatsapp.cityEmpty": "No hay ciudades con número de WhatsApp.",
+    "whatsapp.cityError": "No se pudieron cargar las ciudades.",
   },
   en: {
     "nav.home": "Home",
@@ -216,5 +220,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "whatsapp.cityTitle": "Which city are you contacting us from?",
     "whatsapp.citySubtitle": "Choose your city to open WhatsApp with the right local number.",
     "whatsapp.defaultMessage": "Hi! I'd like to place an order for Miau Miau cat litter",
+    "whatsapp.cityLoading": "Loading cities…",
+    "whatsapp.cityEmpty": "There are no cities with a WhatsApp number.",
+    "whatsapp.cityError": "Could not load cities.",
   },
 };

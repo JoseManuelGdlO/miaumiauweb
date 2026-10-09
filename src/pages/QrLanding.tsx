@@ -88,7 +88,7 @@ const QrLanding = () => {
         <div className="container mx-auto text-center">
           {hasLinksText ? (
             <div
-              className="mx-auto mb-10 max-w-3xl [&_a]:underline [&_font[size='1']]:text-xs [&_font[size='2']]:text-sm [&_font[size='3']]:text-base [&_font[size='4']]:text-lg [&_font[size='5']]:text-2xl [&_font[size='6']]:text-4xl [&_font[size='7']]:text-5xl [&_font[size='7']]:font-black [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:text-left [&_p]:mb-3 [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-left"
+              className="mx-auto mb-10 max-w-3xl [&_a]:underline [&_font[size='1']]:text-xs [&_font[size='2']]:text-sm [&_font[size='3']]:text-base [&_font[size='4']]:text-lg [&_font[size='5']]:text-2xl [&_font[size='6']]:text-4xl [&_font[size='7']]:text-5xl [&_font[size='7']]:font-black [&_h2]:text-4xl [&_h2]:font-black [&_h3]:text-2xl [&_h3]:font-bold [&_img]:mx-auto [&_img]:my-4 [&_img]:max-h-96 [&_img]:max-w-full [&_img]:rounded-lg [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:text-left [&_p]:mb-3 [&_s]:line-through [&_strike]:line-through [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-left"
               style={{ color: qrActions.linksTextColor }}
               dangerouslySetInnerHTML={{ __html: linksHtml }}
             />
@@ -117,7 +117,7 @@ const QrLanding = () => {
               <button
                 type="button"
                 className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-extrabold shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
-                style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksTextColor }}
+                style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksBubbleTextColor }}
                 onClick={() => openOrder(t("whatsapp.defaultMessage"))}
               >
                 <Smartphone className="h-5 w-5" />
@@ -131,7 +131,7 @@ const QrLanding = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-extrabold shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
-                style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksTextColor }}
+                style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksBubbleTextColor }}
               >
                 <ExternalLink className="h-5 w-5" />
                 {link.name}
@@ -143,7 +143,7 @@ const QrLanding = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-extrabold shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
-                style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksTextColor }}
+                style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksBubbleTextColor }}
               >
                 <ExternalLink className="h-5 w-5" />
                 {t("ml.cta")}
@@ -157,7 +157,7 @@ const QrLanding = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-extrabold shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
-                  style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksTextColor }}
+                  style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksBubbleTextColor }}
                 >
                   <link.icon className="h-5 w-5" />
                   {link.label}
