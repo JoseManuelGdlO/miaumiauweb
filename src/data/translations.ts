@@ -5,7 +5,7 @@ export type TranslationKey =
   | "hero.title" | "hero.subtitle" | "hero.cta"
   | "catalog.title" | "catalog.subtitle"
   | "product.order" | "product.whatsapp" | "product.readMore" | "product.readLess"
-  | "promos.title" | "promos.subtitle" | "promos.valid" | "promos.badge"
+  | "promos.title" | "promos.subtitle" | "promos.valid" | "promos.badge" | "promos.empty" | "promos.goHome"
   | "why.title" | "why.quality" | "why.qualityDesc" | "why.delivery" | "why.deliveryDesc" | "why.loyalty" | "why.loyaltyDesc" | "why.love" | "why.loveDesc"
   | "auth.login" | "auth.register" | "auth.email" | "auth.password" | "auth.name" | "auth.phone" | "auth.address" | "auth.submit" | "auth.switchLogin" | "auth.switchRegister"
   | "auth.apiMissing" | "auth.errorLogin" | "auth.passwordTooShort" | "auth.passwordMismatch" | "auth.errorChange" | "auth.loggingIn"
@@ -43,6 +43,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "promos.subtitle": "¡Aprovecha nuestras ofertas especiales!",
     "promos.valid": "Vigente hasta",
     "promos.badge": "¡OFERTA!",
+    "promos.empty": "Lo sentimos, por el momento no tenemos promociones.",
+    "promos.goHome": "Ir a la página principal",
     "why.title": "¿Por qué Miau Miau?",
     "why.quality": "Calidad Premium",
     "why.qualityDesc": "Arena de la más alta calidad, súper absorbente y con control de olores.",
@@ -145,6 +147,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "promos.subtitle": "Take advantage of our special offers!",
     "promos.valid": "Valid until",
     "promos.badge": "SALE!",
+    "promos.empty": "Sorry, we don't have any promotions right now.",
+    "promos.goHome": "Go to the home page",
     "why.title": "Why Miau Miau?",
     "why.quality": "Premium Quality",
     "why.qualityDesc": "Highest quality litter, super absorbent with odor control.",

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Tag } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import PromoCard from "@/components/PromoCard";
+import { Button } from "@/components/ui/button";
 import { fetchActivePromotions, type Promotion } from "@/lib/promotions";
 
 const Promotions = () => {
@@ -44,7 +47,24 @@ const Promotions = () => {
   }
 
   if (promotions.length === 0) {
-    return <div className="min-h-screen" />;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white px-4 py-16">
+        <div className="mx-auto max-w-2xl text-center">
+          <Tag className="mx-auto mb-4 h-8 w-8 text-primary" />
+          <h1
+            className="text-3xl font-black text-foreground md:text-5xl"
+            style={{ fontFamily: "'Fredoka', sans-serif" }}
+          >
+            {t("promos.title")}
+          </h1>
+          <p className="mt-3 text-lg text-muted-foreground">{t("promos.empty")}</p>
+          <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-primary" />
+          <Button asChild size="lg" className="mt-8 rounded-full px-8 font-bold">
+            <Link to="/">{t("promos.goHome")}</Link>
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
