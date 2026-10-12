@@ -8,11 +8,12 @@ const WaveDivider = ({ color = "hsl(var(--background))", flip = false }: WaveDiv
     <svg
       viewBox="0 0 1200 120"
       preserveAspectRatio="none"
-      className="w-full h-[50px] md:h-[70px]"
+      className="block h-[50px] w-full md:h-[70px]"
     >
       <path
         d="M0,60 C200,120 400,0 600,60 C800,120 1000,0 1200,60 L1200,120 L0,120 Z"
         fill={color}
+        stroke="none"
       />
     </svg>
   </div>

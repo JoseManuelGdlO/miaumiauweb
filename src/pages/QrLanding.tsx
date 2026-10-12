@@ -3,6 +3,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { usePublicSiteSettings } from "@/contexts/PublicSiteSettingsContext";
 import { packages, products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
+import PackageCarousel from "@/components/PackageCarousel";
+import WaveDivider from "@/components/WaveDivider";
 import PromoCard from "@/components/PromoCard";
 import { fetchActivePromotions, type Promotion } from "@/lib/promotions";
 import { useWhatsAppCityOrder } from "@/components/WhatsAppCityPicker";
@@ -33,13 +35,13 @@ const QrLanding = () => {
   useEffect(() => {
     const previousBody = document.body.style.backgroundColor;
     const previousHtml = document.documentElement.style.backgroundColor;
-    document.body.style.backgroundColor = qrActions.linksPanelColor;
-    document.documentElement.style.backgroundColor = qrActions.linksPanelColor;
+    document.body.style.backgroundColor = "#ffffff";
+    document.documentElement.style.backgroundColor = "#ffffff";
     return () => {
       document.body.style.backgroundColor = previousBody;
       document.documentElement.style.backgroundColor = previousHtml;
     };
-  }, [qrActions.linksPanelColor]);
+  }, []);
 
   useEffect(() => {
     if (!qrActions.promotions) {
@@ -79,11 +81,12 @@ const QrLanding = () => {
     bubbles.length > 0 ||
     hasLinksText;
 
+  const showBusiness = bubbles.length > 0 || showMercadoLibre;
+  const linkRowClass =
+    "inline-flex items-center justify-center gap-2 py-2 text-base font-semibold text-neutral-950 transition-opacity hover:opacity-70";
+
   return (
-    <div
-      className="min-h-screen w-full"
-      style={{ backgroundColor: qrActions.linksPanelColor, color: qrActions.linksTextColor }}
-    >
+    <div className="min-h-screen w-full bg-white">
       <section className="w-full px-4 py-16">
         <div className="container mx-auto text-center">
           {hasLinksText ? (
@@ -95,14 +98,12 @@ const QrLanding = () => {
           ) : (
             <>
               <h1
-                className="text-4xl md:text-6xl font-black"
-                style={{ fontFamily: "'Fredoka', sans-serif", color: qrActions.linksTextColor }}
+                className="text-4xl font-black text-neutral-950 md:text-6xl"
+                style={{ fontFamily: "'Fredoka', sans-serif" }}
               >
                 Miau Miau
               </h1>
-              <p className="mt-3 mb-10 text-lg" style={{ color: qrActions.linksTextColor }}>
-                Elige lo que quieres ver
-              </p>
+              <p className="mb-10 mt-3 text-lg text-neutral-950">elige que hacer</p>
             </>
           )}
 
@@ -110,10 +111,8 @@ const QrLanding = () => {
             <p>Por ahora no hay contenido disponible en este código.</p>
           )}
 
-          {(qrActions.whatsapp || bubbles.length > 0 || showMercadoLibre || showSocial) && (
-            <>
-          <div className="flex flex-wrap justify-center gap-4">
-            {qrActions.whatsapp && (
+          {qrActions.whatsapp && (
+            <div className="mb-10 flex justify-center">
               <button
                 type="button"
                 className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-extrabold shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
@@ -123,64 +122,81 @@ const QrLanding = () => {
                 <Smartphone className="h-5 w-5" />
                 {t("hero.cta")}
               </button>
-            )}
-            {bubbles.map((link) => (
-              <a
-                key={link.id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-extrabold shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
-                style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksBubbleTextColor }}
-              >
-                <ExternalLink className="h-5 w-5" />
-                {link.name}
-              </a>
-            ))}
-            {showMercadoLibre && (
-              <a
-                href={mercadolibreUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-extrabold shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
-                style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksBubbleTextColor }}
-              >
-                <ExternalLink className="h-5 w-5" />
-                {t("ml.cta")}
-              </a>
-            )}
-            {showSocial &&
-              socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-extrabold shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
-                  style={{ backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksBubbleTextColor }}
-                >
-                  <link.icon className="h-5 w-5" />
-                  {link.label}
-                </a>
-              ))}
-          </div>
-            </>
+            </div>
+          )}
+
+          {(showBusiness || showSocial) && (
+            <div className={`mx-auto w-full max-w-3xl ${showBusiness && showSocial ? "grid grid-cols-2" : "flex justify-center"}`}>
+              {showBusiness && (
+                <div className={`flex flex-col items-center ${showSocial ? "border-r border-neutral-950/20 px-4" : ""}`}>
+                  <h2 className="mb-2 text-xl font-black text-neutral-950" style={{ fontFamily: "'Fredoka', sans-serif" }}>
+                    Negocio
+                  </h2>
+                  {bubbles.map((link) => (
+                    <a
+                      key={link.id}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={linkRowClass}
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      {link.name}
+                    </a>
+                  ))}
+                  {showMercadoLibre && (
+                    <a
+                      href={mercadolibreUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={linkRowClass}
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      {t("ml.cta")}
+                    </a>
+                  )}
+                </div>
+              )}
+              {showSocial && (
+                <div className={`flex flex-col items-center ${showBusiness ? "px-4" : ""}`}>
+                  <h2 className="mb-2 text-xl font-black text-neutral-950" style={{ fontFamily: "'Fredoka', sans-serif" }}>
+                    Redes
+                  </h2>
+                  {socialLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={linkRowClass}
+                    >
+                      <link.icon className="h-4 w-4" />
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
         </div>
       </section>
 
       {qrActions.catalog && (
-        <section className="py-16">
+        <section className="py-16 md:py-8">
           <div className="container mx-auto px-4">
-            <h2
-              className="text-3xl md:text-5xl font-black text-center text-foreground mb-10"
-              style={{ fontFamily: "'Fredoka', sans-serif" }}
-            >
-              {t("catalog.title")}
-            </h2>
+            <div className="mb-10 text-center md:mb-6">
+              <h2
+                className="text-3xl md:text-4xl font-black text-center text-foreground"
+                style={{ fontFamily: "'Fredoka', sans-serif" }}
+              >
+                {t("catalog.title")}
+              </h2>
+              <p className="mt-3 text-lg text-muted-foreground">{t("catalog.subtitle")}</p>
+              <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-accent" />
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} compact />
               ))}
             </div>
           </div>
@@ -188,24 +204,32 @@ const QrLanding = () => {
       )}
 
       {qrActions.packages && (
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
-              <Package className="h-8 w-8 text-primary mx-auto mb-3" />
-              <h2
-                className="text-3xl md:text-5xl font-black text-foreground"
-                style={{ fontFamily: "'Fredoka', sans-serif" }}
-              >
-                Paquetes y Combos
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {packages.map((pkg) => (
-                <ProductCard key={pkg.id} product={pkg} />
-              ))}
-            </div>
+        <>
+          <div className="-mb-px">
+            <WaveDivider color="hsl(var(--section-peach))" />
           </div>
-        </section>
+          <section className="relative bg-section-peach">
+            <div className="paw-pattern-qr py-16">
+              <div className="container relative z-10 mx-auto px-4">
+                <div className="mb-12 text-center">
+                  <div className="mb-4 inline-flex items-center gap-2">
+                    <Package className="h-8 w-8 text-primary" />
+                  </div>
+                  <h2
+                    className="text-3xl font-black text-foreground md:text-5xl"
+                    style={{ fontFamily: "'Fredoka', sans-serif" }}
+                  >
+                    Paquetes y Combos
+                  </h2>
+                  <p className="mt-3 text-lg text-muted-foreground">Ahorra más con nuestros paquetes especiales</p>
+                  <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-primary" />
+                </div>
+                <PackageCarousel packages={packages} />
+              </div>
+            </div>
+            <WaveDivider color="#ffffff" />
+          </section>
+        </>
       )}
 
       {showPromotions && (
