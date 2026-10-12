@@ -4,7 +4,7 @@ export type TranslationKey =
   | "nav.home" | "nav.promotions" | "nav.login" | "nav.profile" | "nav.logout"
   | "hero.title" | "hero.subtitle" | "hero.cta"
   | "catalog.title" | "catalog.subtitle"
-  | "product.order" | "product.whatsapp"
+  | "product.order" | "product.whatsapp" | "product.readMore" | "product.readLess"
   | "promos.title" | "promos.subtitle" | "promos.valid" | "promos.badge"
   | "why.title" | "why.quality" | "why.qualityDesc" | "why.delivery" | "why.deliveryDesc" | "why.loyalty" | "why.loyaltyDesc" | "why.love" | "why.loveDesc"
   | "auth.login" | "auth.register" | "auth.email" | "auth.password" | "auth.name" | "auth.phone" | "auth.address" | "auth.submit" | "auth.switchLogin" | "auth.switchRegister"
@@ -37,6 +37,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "catalog.subtitle": "Arena premium y accesorios para consentir a tu michi",
     "product.order": "Pedir por WhatsApp",
     "product.whatsapp": "Hola! Me interesa el producto: ",
+    "product.readMore": "Ver más",
+    "product.readLess": "Ver menos",
     "promos.title": "Promociones",
     "promos.subtitle": "¡Aprovecha nuestras ofertas especiales!",
     "promos.valid": "Vigente hasta",
@@ -137,6 +139,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "catalog.subtitle": "Premium litter and accessories to pamper your cat",
     "product.order": "Order via WhatsApp",
     "product.whatsapp": "Hi! I'm interested in: ",
+    "product.readMore": "See more",
+    "product.readLess": "See less",
     "promos.title": "Promotions",
     "promos.subtitle": "Take advantage of our special offers!",
     "promos.valid": "Valid until",
