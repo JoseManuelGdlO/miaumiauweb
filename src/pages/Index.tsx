@@ -73,7 +73,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section with Video — iframe 16:9 con “cover” (equivalente a object-fit: cover) */}
-      <section className="relative overflow-hidden min-h-[100svh] flex items-center">
+      <section className="relative flex min-h-[100svh] items-end justify-center overflow-hidden">
         <div className="absolute inset-0 overflow-hidden bg-black">
           <iframe
             src={heroIframeSrc}
@@ -82,18 +82,23 @@ const Index = () => {
             allow="autoplay; encrypted-media"
             allowFullScreen
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/75 to-transparent" />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to top, hsl(var(--background)) 0%, hsl(var(--background) / 0.92) 24%, hsl(var(--background) / 0.5) 48%, transparent 72%)",
+            }}
+          />
         </div>
 
-        <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
-            <div className="flex-1 text-center md:text-left space-y-6 max-w-xl">
+        <div className="container relative z-10 mx-auto flex justify-center px-4 pb-24 pt-20 md:pb-32">
+          <div className="flex w-full flex-col items-center space-y-6 text-center">
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold text-sm px-4 py-1.5 rounded-full border border-primary/20">
                 <PawPrint className="h-4 w-4" />
                 Arena Premium para Gatitos
               </div>
               <h1
-                className="text-4xl md:text-5xl lg:text-7xl font-black text-foreground leading-[1.1]"
+                className="whitespace-nowrap font-black leading-none text-foreground text-[clamp(1.05rem,4.2vw,5.25rem)]"
                 style={{ fontFamily: "'Fredoka', sans-serif" }}
               >
                 {t("hero.title")}
@@ -111,7 +116,6 @@ const Index = () => {
                 {t("hero.cta")}
               </Button>
             </div>
-          </div>
         </div>
 
         <div className="absolute bottom-0 left-0 w-full z-10">
