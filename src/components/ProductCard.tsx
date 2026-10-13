@@ -3,7 +3,6 @@ import { ChevronDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Product } from "@/data/products";
 import { WhatsAppCTA } from "./WhatsAppButton";
-import { Badge } from "@/components/ui/badge";
 
 interface ProductCardProps {
   product: Product;
@@ -13,7 +12,8 @@ interface ProductCardProps {
 const ProductCard = ({ product, compact = false }: ProductCardProps) => {
   const { t } = useLanguage();
   const [expanded, setExpanded] = useState(false);
-  const categoryLabel = product.category === "producto" ? "Producto" : "Paquete";
+  const isProduct = product.category === "producto";
+  const categoryLabel = isProduct ? t("product.typeProduct") : t("product.typePackage");
 
   return (
     <div className="group bg-card rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-border">
@@ -33,7 +33,9 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
           >
             {product.title}
           </h3>
-          <Badge variant="secondary" className="text-xs shrink-0 rounded-full">{categoryLabel}</Badge>
+          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-bold ${isProduct ? "bg-primary/15 text-primary" : "bg-foreground text-primary-foreground"}`}>
+            {categoryLabel}
+          </span>
         </div>
         <p className={`text-sm text-muted-foreground leading-relaxed ${compact && !expanded ? "md:line-clamp-2" : ""}`}>
           {product.description}

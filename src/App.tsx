@@ -24,11 +24,13 @@ const queryClient = new QueryClient();
 const AppRoutes = () => {
   const { pathname } = useLocation();
   const { loading, maintenancePlaceholder } = usePublicSiteSettings();
-  const showPlaceholder = pathname === "/" && (loading || maintenancePlaceholder);
+  // Temporal: mostrar la landing para editarla. Quitar `&& false` para volver al aviso de construcción.
+  const showPlaceholder = pathname === "/" && (loading || maintenancePlaceholder) && false;
+  const isNotFound = !["/", "/qr", "/QR", "/promotions", "/auth", "/profile"].includes(pathname);
 
   return (
     <>
-      {!showPlaceholder && <Navbar />}
+      {!showPlaceholder && !isNotFound && <Navbar />}
       <Routes>
         <Route path="/" element={showPlaceholder ? <MaintenancePlaceholder /> : <Index />} />
         <Route path="/QR" element={<QrLanding />} />
@@ -45,8 +47,8 @@ const AppRoutes = () => {
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {!showPlaceholder && <Footer />}
-      {!showPlaceholder && <WhatsAppButton />}
+      {!showPlaceholder && !isNotFound && <Footer />}
+      {!showPlaceholder && !isNotFound && <WhatsAppButton />}
     </>
   );
 };

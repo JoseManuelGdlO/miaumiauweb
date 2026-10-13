@@ -3,6 +3,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { usePublicSiteSettings } from "@/contexts/PublicSiteSettingsContext";
 import { products, packages } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
+import PackageCarousel from "@/components/PackageCarousel";
 import PromoCard from "@/components/PromoCard";
 import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ const Index = () => {
   const [featuredPromos, setFeaturedPromos] = useState<Promotion[]>([]);
   const [promotionsLoading, setPromotionsLoading] = useState(true);
   const [promotionsError, setPromotionsError] = useState("");
+  const [activeWhy, setActiveWhy] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,6 +58,17 @@ const Index = () => {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (motion.matches) return;
+
+    const id = window.setInterval(() => {
+      setActiveWhy((current) => (current + 1) % 4);
+    }, 4000);
+
+    return () => window.clearInterval(id);
+  }, [activeWhy]);
 
   return (
     <div className="min-h-screen">
@@ -107,33 +120,71 @@ const Index = () => {
       </section>
 
       {/* Why Miau Miau - Lavender section */}
-      <section className="bg-section-lavender py-16 md:py-20 relative">
-        <div className="container mx-auto px-4">
+      <section className="relative overflow-hidden bg-section-lavender py-16 md:py-24">
+        <div className="container relative mx-auto px-4">
           <h2
-            className="text-3xl md:text-5xl font-black text-center text-foreground mb-4"
+            className="relative z-10 mb-4 text-center text-3xl font-black text-foreground md:text-5xl"
             style={{ fontFamily: "'Fredoka', sans-serif" }}
           >
             {t("why.title")}
           </h2>
-          <div className="w-24 h-1 bg-primary rounded-full mx-auto mb-12" />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="relative z-10 mx-auto mb-14 h-1 w-24 rounded-full bg-primary" />
+          <div className="relative z-10 mx-auto flex max-w-5xl flex-col gap-3 md:h-[24rem] md:flex-row">
             {[
-              { icon: <Star className="h-8 w-8" />, title: t("why.quality"), desc: t("why.qualityDesc") },
-              { icon: <Truck className="h-8 w-8" />, title: t("why.delivery"), desc: t("why.deliveryDesc") },
-              { icon: <Award className="h-8 w-8" />, title: t("why.loyalty"), desc: t("why.loyaltyDesc") },
-              { icon: <Heart className="h-8 w-8" />, title: t("why.love"), desc: t("why.loveDesc") },
-            ].map((item, i) => (
-              <div key={i} className="bg-card rounded-3xl p-8 text-center shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 group">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary mb-5 group-hover:scale-110 transition-transform">
-                  {item.icon}
-                </div>
-                <h3 className="font-extrabold text-foreground mb-2 text-lg" style={{ fontFamily: "'Fredoka', sans-serif" }}>
-                  {item.title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
+              { Icon: Star, title: t("why.quality"), desc: t("why.qualityDesc"), tone: "bg-accent text-accent-foreground", detail: "text-accent-foreground/80" },
+              { Icon: Truck, title: t("why.delivery"), desc: t("why.deliveryDesc"), tone: "bg-green-500 text-white", detail: "text-white/90" },
+              { Icon: Award, title: t("why.loyalty"), desc: t("why.loyaltyDesc"), tone: "bg-primary text-primary-foreground", detail: "text-primary-foreground/90" },
+              { Icon: Heart, title: t("why.love"), desc: t("why.loveDesc"), tone: "bg-[hsl(158_72%_46%)] text-white", detail: "text-white/90" },
+            ].map((item, i) => {
+              const open = activeWhy === i;
+              return (
+                <button
+                  key={item.title}
+                  type="button"
+                  aria-expanded={open}
+                  onClick={() => setActiveWhy(i)}
+                  className={`flex overflow-hidden rounded-3xl text-left shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground motion-safe:transition-all motion-safe:duration-500 ${item.tone} ${
+                    open
+                      ? "flex-col items-start p-6 md:min-w-0 md:flex-1 md:p-8"
+                      : "flex-row items-center gap-4 px-4 py-4 md:h-full md:w-[4.75rem] md:shrink-0 md:flex-col md:justify-start md:gap-0 md:px-2 md:py-5"
+                  }`}
+                >
+                  <span
+                    className={`flex shrink-0 items-center justify-center rounded-full bg-white shadow-md ${
+                      open ? "h-16 w-16 md:h-20 md:w-20" : "h-12 w-12"
+                    }`}
+                  >
+                    <item.Icon className={open ? "h-8 w-8 text-primary md:h-10 md:w-10" : "h-6 w-6 text-primary"} />
+                  </span>
+                  {!open && (
+                    <span className="font-black md:hidden" style={{ fontFamily: "'Fredoka', sans-serif" }}>
+                      {item.title}
+                    </span>
+                  )}
+                  {!open && (
+                    <span
+                      className="mt-5 hidden whitespace-nowrap text-xs font-black tracking-wide md:block"
+                      style={{ fontFamily: "'Fredoka', sans-serif", writingMode: "vertical-rl" }}
+                    >
+                      {item.title}
+                    </span>
+                  )}
+                  {open && (
+                    <>
+                      <span
+                        className="mt-5 block text-3xl font-black leading-tight md:mt-8 md:text-5xl"
+                        style={{ fontFamily: "'Fredoka', sans-serif" }}
+                      >
+                        {item.title}
+                      </span>
+                      <span className={`mt-3 max-w-md text-sm leading-relaxed md:text-base ${item.detail}`}>
+                        {item.desc}
+                      </span>
+                    </>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -143,21 +194,21 @@ const Index = () => {
       </section>
 
       {/* Products Catalog */}
-      <section className="py-16 md:py-20 relative">
+      <section className="relative pt-16 pb-28 md:pt-8 md:pb-36">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="mb-10 text-center md:mb-6">
             <h2
-              className="text-3xl md:text-5xl font-black text-foreground"
+              className="text-center text-3xl font-black text-foreground md:text-4xl"
               style={{ fontFamily: "'Fredoka', sans-serif" }}
             >
               {t("catalog.title")}
             </h2>
-            <p className="text-muted-foreground mt-3 text-lg">{t("catalog.subtitle")}</p>
-            <div className="w-24 h-1 bg-accent rounded-full mx-auto mt-4" />
+            <p className="mt-3 text-lg text-muted-foreground">{t("catalog.subtitle")}</p>
+            <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-accent" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} compact />
             ))}
           </div>
         </div>
@@ -168,25 +219,23 @@ const Index = () => {
       </section>
 
       {/* Packages Section - Peach */}
-      <section className="bg-section-peach py-16 md:py-20 relative">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <Package className="h-8 w-8 text-primary" />
+      <section className="relative bg-section-peach">
+        <div className="paw-pattern-qr pt-16 pb-24 md:pb-28">
+          <div className="container relative z-10 mx-auto px-4">
+            <div className="mb-12 text-center">
+              <div className="mb-4 inline-flex items-center gap-2">
+                <Package className="h-8 w-8 text-primary" />
+              </div>
+              <h2
+                className="text-3xl font-black text-foreground md:text-5xl"
+                style={{ fontFamily: "'Fredoka', sans-serif" }}
+              >
+                Paquetes y Combos
+              </h2>
+              <p className="mt-3 text-lg text-muted-foreground">Ahorra más con nuestros paquetes especiales</p>
+              <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-primary" />
             </div>
-            <h2
-              className="text-3xl md:text-5xl font-black text-foreground"
-              style={{ fontFamily: "'Fredoka', sans-serif" }}
-            >
-              Paquetes y Combos
-            </h2>
-            <p className="text-muted-foreground mt-3 text-lg">Ahorra más con nuestros paquetes especiales</p>
-            <div className="w-24 h-1 bg-primary rounded-full mx-auto mt-4" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {packages.map((pkg) => (
-              <ProductCard key={pkg.id} product={pkg} />
-            ))}
+            <PackageCarousel packages={packages} />
           </div>
         </div>
 
@@ -269,8 +318,8 @@ const Index = () => {
       )}
 
       {/* CTA Section - Mint */}
-      <section className="bg-section-mint py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
+      <section className="bg-section-mint pt-16 md:pt-24">
+        <div className="container mx-auto px-4 pb-16 text-center md:pb-20">
           <div className="max-w-2xl mx-auto space-y-6">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary">
               <Cat className="h-10 w-10" />
@@ -295,6 +344,7 @@ const Index = () => {
             </Button>
           </div>
         </div>
+        <WaveDivider color="hsl(var(--background))" />
       </section>
     </div>
   );
