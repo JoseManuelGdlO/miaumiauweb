@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Product } from "@/data/products";
 import { WhatsAppCTA } from "./WhatsAppButton";
 
@@ -8,6 +9,7 @@ interface PackageCarouselProps {
 }
 
 const PackageCarousel = ({ packages }: PackageCarouselProps) => {
+  const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   const [timerKey, setTimerKey] = useState(0);
 
@@ -34,6 +36,9 @@ const PackageCarousel = ({ packages }: PackageCarouselProps) => {
   return (
     <div className="grid items-center gap-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.15fr)_6.5rem] md:gap-8">
       <div className="order-2 text-center md:order-1 md:text-left">
+        <span className="mb-3 inline-flex rounded-full bg-foreground px-2.5 py-0.5 text-xs font-bold text-primary-foreground mx-auto md:mx-0">
+          {t("product.typePackage")}
+        </span>
         <h3 className="text-3xl font-black text-foreground md:text-4xl" style={{ fontFamily: "'Fredoka', sans-serif" }}>
           {active.title}
         </h3>

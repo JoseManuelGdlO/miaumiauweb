@@ -4,8 +4,9 @@ export type TranslationKey =
   | "nav.home" | "nav.promotions" | "nav.login" | "nav.profile" | "nav.logout"
   | "hero.title" | "hero.subtitle" | "hero.cta"
   | "catalog.title" | "catalog.subtitle"
-  | "product.order" | "product.whatsapp" | "product.readMore" | "product.readLess"
+  | "product.order" | "product.whatsapp" | "product.readMore" | "product.readLess" | "product.typeProduct" | "product.typePackage"
   | "promos.title" | "promos.subtitle" | "promos.valid" | "promos.badge" | "promos.empty" | "promos.goHome"
+  | "notFound.message"
   | "why.title" | "why.quality" | "why.qualityDesc" | "why.delivery" | "why.deliveryDesc" | "why.loyalty" | "why.loyaltyDesc" | "why.love" | "why.loveDesc"
   | "auth.login" | "auth.register" | "auth.email" | "auth.password" | "auth.name" | "auth.phone" | "auth.address" | "auth.submit" | "auth.switchLogin" | "auth.switchRegister"
   | "auth.apiMissing" | "auth.errorLogin" | "auth.passwordTooShort" | "auth.passwordMismatch" | "auth.errorChange" | "auth.loggingIn"
@@ -39,12 +40,15 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "product.whatsapp": "Hola! Me interesa el producto: ",
     "product.readMore": "Ver más",
     "product.readLess": "Ver menos",
+    "product.typeProduct": "Producto",
+    "product.typePackage": "Paquete",
     "promos.title": "Promociones",
     "promos.subtitle": "¡Aprovecha nuestras ofertas especiales!",
     "promos.valid": "Vigente hasta",
     "promos.badge": "¡OFERTA!",
     "promos.empty": "Lo sentimos, por el momento no tenemos promociones.",
     "promos.goHome": "Ir a la página principal",
+    "notFound.message": "Miau no se a que te refieres. ¡Esta página se ha perdido entre la arena!",
     "why.title": "¿Por qué Miau Miau?",
     "why.quality": "Calidad Premium",
     "why.qualityDesc": "Arena de la más alta calidad, súper absorbente y con control de olores.",
@@ -143,12 +147,15 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "product.whatsapp": "Hi! I'm interested in: ",
     "product.readMore": "See more",
     "product.readLess": "See less",
+    "product.typeProduct": "Product",
+    "product.typePackage": "Package",
     "promos.title": "Promotions",
     "promos.subtitle": "Take advantage of our special offers!",
     "promos.valid": "Valid until",
     "promos.badge": "SALE!",
     "promos.empty": "Sorry, we don't have any promotions right now.",
     "promos.goHome": "Go to the home page",
+    "notFound.message": "There's nothing here. This page doesn't exist.",
     "why.title": "Why Miau Miau?",
     "why.quality": "Premium Quality",
     "why.qualityDesc": "Highest quality litter, super absorbent with odor control.",
