@@ -19,7 +19,9 @@ interface PromotionApiItem {
   codigo?: string;
   tipo_promocion?: string;
   valor_descuento?: number | string;
+  fecha_inicio?: string;
   fecha_fin?: string;
+  baja_logica?: boolean;
 }
 
 interface ActivePromotionsResponse {
@@ -55,6 +57,15 @@ function formatDiscount(type?: string, value?: number | string): string {
   return "PROMO";
 }
 
+export function isCurrentPromotion(apiPromo: PromotionApiItem, now = Date.now()): boolean {
+  if (apiPromo.baja_logica) return false;
+  const starts = apiPromo.fecha_inicio ? Date.parse(apiPromo.fecha_inicio) : Number.NaN;
+  const ends = apiPromo.fecha_fin ? Date.parse(apiPromo.fecha_fin) : Number.NaN;
+  if (Number.isFinite(starts) && starts > now) return false;
+  if (Number.isFinite(ends) && ends < now) return false;
+  return true;
+}
+
 function mapPromotion(apiPromo: PromotionApiItem): Promotion {
   const type = apiPromo.tipo_promocion ?? "";
   const title = apiPromo.nombre?.trim() || "Promocion especial";
@@ -84,5 +95,5 @@ export async function fetchActivePromotions(): Promise<Promotion[]> {
 
   const json = (await response.json()) as ActivePromotionsResponse;
   const promotions = json?.data?.promotions ?? [];
-  return promotions.map(mapPromotion);
+  return promotions.filter((item) => isCurrentPromotion(item)).map(mapPromotion);
 }

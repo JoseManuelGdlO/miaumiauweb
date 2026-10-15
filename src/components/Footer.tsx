@@ -16,10 +16,10 @@ const Footer = () => {
   } = usePublicSiteSettings();
 
   const socialLinks = [
-    { href: socialInstagramUrl, label: "Instagram", icon: Instagram },
-    { href: socialFacebookUrl, label: "Facebook", icon: Facebook },
-    { href: socialTiktokUrl, label: "TikTok", icon: Music },
-  ];
+    socialInstagramUrl ? { href: socialInstagramUrl, label: "Instagram", icon: Instagram } : null,
+    socialFacebookUrl ? { href: socialFacebookUrl, label: "Facebook", icon: Facebook } : null,
+    socialTiktokUrl ? { href: socialTiktokUrl, label: "TikTok", icon: Music } : null,
+  ].filter((link): link is { href: string; label: string; icon: typeof Instagram } => link !== null);
 
   return (
     <div>
@@ -51,11 +51,11 @@ const Footer = () => {
               </button>
             </div>
 
-            <div className="text-left">
-              <h4 className="mb-3 text-lg font-bold" style={{ fontFamily: "'Fredoka', sans-serif" }}>{t("footer.followUs")}</h4>
-              <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:justify-start md:gap-4">
-                {socialLinks.map(({ href, label, icon: Icon }) =>
-                  href ? (
+            {socialLinks.length > 0 && (
+              <div className="text-left">
+                <h4 className="mb-3 text-lg font-bold" style={{ fontFamily: "'Fredoka', sans-serif" }}>{t("footer.followUs")}</h4>
+                <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:justify-start md:gap-4">
+                  {socialLinks.map(({ href, label, icon: Icon }) => (
                     <a
                       key={label}
                       href={href}
@@ -65,14 +65,10 @@ const Footer = () => {
                     >
                       <Icon className="h-4 w-4" /> {label}
                     </a>
-                  ) : (
-                    <span key={label} className="inline-flex items-center gap-1 text-sm opacity-80">
-                      <Icon className="h-4 w-4" /> {label}
-                    </span>
-                  ),
-                )}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="mt-10 md:mt-auto md:pt-16">
             <div className="flex items-center justify-start gap-1 border-t border-primary-foreground/20 pt-6 text-left text-sm opacity-60 md:justify-center md:text-center">

@@ -29,8 +29,8 @@ export interface QrActions {
 export const DEFAULT_QR_ACTIONS: QrActions = {
   whatsapp: true,
   catalog: true,
-  packages: true,
-  promotions: true,
+  packages: false,
+  promotions: false,
   mercadolibre: true,
   social: true,
   customLink: false,

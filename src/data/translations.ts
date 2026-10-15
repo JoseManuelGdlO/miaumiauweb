@@ -3,7 +3,8 @@ export type Language = "es" | "en";
 export type TranslationKey =
   | "nav.home" | "nav.promotions" | "nav.login" | "nav.profile" | "nav.logout"
   | "hero.title" | "hero.subtitle" | "hero.cta"
-  | "catalog.title" | "catalog.subtitle"
+  | "catalog.title" | "catalog.subtitle" | "catalog.loading" | "catalog.empty" | "catalog.error"
+  | "packages.loading" | "packages.empty" | "packages.error"
   | "product.order" | "product.whatsapp" | "product.readMore" | "product.readLess" | "product.typeProduct" | "product.typePackage"
   | "promos.title" | "promos.subtitle" | "promos.valid" | "promos.badge" | "promos.empty" | "promos.goHome"
   | "notFound.message"
@@ -36,6 +37,12 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "hero.cta": "¡Pedir por WhatsApp!",
     "catalog.title": "Nuestros Productos",
     "catalog.subtitle": "Arena premium y accesorios para consentir a tu michi",
+    "catalog.loading": "Cargando productos...",
+    "catalog.empty": "Por ahora no hay productos disponibles.",
+    "catalog.error": "No pudimos cargar los productos.",
+    "packages.loading": "Cargando paquetes...",
+    "packages.empty": "Por ahora no hay paquetes disponibles.",
+    "packages.error": "No pudimos cargar los paquetes.",
     "product.order": "Pedir por WhatsApp",
     "product.whatsapp": "Hola! Me interesa el producto: ",
     "product.readMore": "Ver más",
@@ -143,6 +150,12 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "hero.cta": "Order via WhatsApp!",
     "catalog.title": "Our Products",
     "catalog.subtitle": "Premium litter and accessories to pamper your cat",
+    "catalog.loading": "Loading products...",
+    "catalog.empty": "There are no products available right now.",
+    "catalog.error": "We couldn't load the products.",
+    "packages.loading": "Loading packages...",
+    "packages.empty": "There are no packages available right now.",
+    "packages.error": "We couldn't load the packages.",
     "product.order": "Order via WhatsApp",
     "product.whatsapp": "Hi! I'm interested in: ",
     "product.readMore": "See more",

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { usePublicSiteSettings } from "@/contexts/PublicSiteSettingsContext";
-import { packages, products } from "@/data/products";
+import type { Product } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import PackageCarousel from "@/components/PackageCarousel";
 import WaveDivider from "@/components/WaveDivider";
 import PromoCard from "@/components/PromoCard";
+import { fetchActivePackages } from "@/lib/catalogPackages";
+import { fetchCatalogProducts } from "@/lib/catalogProducts";
 import { fetchActivePromotions, type Promotion } from "@/lib/promotions";
 import { useWhatsAppCityOrder } from "@/components/WhatsAppCityPicker";
 import { ExternalLink, Facebook, Instagram, Music, Package, Smartphone, Tag } from "lucide-react";
@@ -14,6 +16,7 @@ const QrLanding = () => {
   const { t } = useLanguage();
   const { openOrder } = useWhatsAppCityOrder();
   const {
+    loading: settingsLoading,
     qrActions,
     mercadolibreUrl,
     socialInstagramUrl,
@@ -31,6 +34,10 @@ const QrLanding = () => {
 
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [promotionsReady, setPromotionsReady] = useState(false);
+  const [catalogProducts, setCatalogProducts] = useState<Product[]>([]);
+  const [catalogStatus, setCatalogStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [catalogPackages, setCatalogPackages] = useState<Product[]>([]);
+  const [packagesStatus, setPackagesStatus] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
     const previousBody = document.body.style.backgroundColor;
@@ -44,6 +51,7 @@ const QrLanding = () => {
   }, []);
 
   useEffect(() => {
+    if (settingsLoading) return;
     if (!qrActions.promotions) {
       setPromotions([]);
       setPromotionsReady(true);
@@ -65,7 +73,67 @@ const QrLanding = () => {
     return () => {
       cancelled = true;
     };
-  }, [qrActions.promotions]);
+  }, [settingsLoading, qrActions.promotions]);
+
+  useEffect(() => {
+    if (settingsLoading) return;
+    if (!qrActions.catalog) {
+      setCatalogProducts([]);
+      setCatalogStatus("ready");
+      return;
+    }
+
+    let cancelled = false;
+    setCatalogStatus("loading");
+    const load = async () => {
+      try {
+        const items = await fetchCatalogProducts();
+        if (!cancelled) {
+          setCatalogProducts(items);
+          setCatalogStatus("ready");
+        }
+      } catch {
+        if (!cancelled) {
+          setCatalogProducts([]);
+          setCatalogStatus("error");
+        }
+      }
+    };
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [settingsLoading, qrActions.catalog]);
+
+  useEffect(() => {
+    if (settingsLoading) return;
+    if (!qrActions.packages) {
+      setCatalogPackages([]);
+      setPackagesStatus("ready");
+      return;
+    }
+
+    let cancelled = false;
+    setPackagesStatus("loading");
+    const load = async () => {
+      try {
+        const items = await fetchActivePackages();
+        if (!cancelled) {
+          setCatalogPackages(items);
+          setPackagesStatus("ready");
+        }
+      } catch {
+        if (!cancelled) {
+          setCatalogPackages([]);
+          setPackagesStatus("error");
+        }
+      }
+    };
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [settingsLoading, qrActions.packages]);
 
   const showPromotions = qrActions.promotions && promotionsReady && promotions.length > 0;
   const bubbles = qrActions.links.filter((link) => link.name.trim() && /^https?:\/\//i.test(link.url.trim()));
@@ -89,29 +157,19 @@ const QrLanding = () => {
     <div className="min-h-screen w-full bg-white">
       <section className="w-full px-4 py-16">
         <div className="container mx-auto text-center">
-          {hasLinksText ? (
+          {!settingsLoading && hasLinksText && (
             <div
               className="mx-auto mb-10 max-w-3xl [&_a]:underline [&_font[size='1']]:text-xs [&_font[size='2']]:text-sm [&_font[size='3']]:text-base [&_font[size='4']]:text-lg [&_font[size='5']]:text-2xl [&_font[size='6']]:text-4xl [&_font[size='7']]:text-5xl [&_font[size='7']]:font-black [&_h2]:text-4xl [&_h2]:font-black [&_h3]:text-2xl [&_h3]:font-bold [&_img]:mx-auto [&_img]:my-4 [&_img]:max-h-96 [&_img]:max-w-full [&_img]:rounded-lg [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:text-left [&_p]:mb-3 [&_s]:line-through [&_strike]:line-through [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-left"
               style={{ color: qrActions.linksTextColor }}
               dangerouslySetInnerHTML={{ __html: linksHtml }}
             />
-          ) : (
-            <>
-              <h1
-                className="text-4xl font-black text-neutral-950 md:text-6xl"
-                style={{ fontFamily: "'Fredoka', sans-serif" }}
-              >
-                Miau Miau
-              </h1>
-              <p className="mb-10 mt-3 text-lg text-neutral-950">elige que hacer</p>
-            </>
           )}
 
-          {!hasContent && (
+          {!settingsLoading && !hasContent && (
             <p>Por ahora no hay contenido disponible en este código.</p>
           )}
 
-          {qrActions.whatsapp && (
+          {!settingsLoading && qrActions.whatsapp && (
             <div className="mb-10 flex justify-center">
               <button
                 type="button"
@@ -125,7 +183,7 @@ const QrLanding = () => {
             </div>
           )}
 
-          {(showBusiness || showSocial) && (
+          {!settingsLoading && (showBusiness || showSocial) && (
             <div className={`mx-auto w-full max-w-3xl ${showBusiness && showSocial ? "grid grid-cols-2" : "flex justify-center"}`}>
               {showBusiness && (
                 <div className={`flex flex-col items-center ${showSocial ? "border-r border-neutral-950/20 px-4" : ""}`}>
@@ -181,7 +239,7 @@ const QrLanding = () => {
         </div>
       </section>
 
-      {qrActions.catalog && (
+      {!settingsLoading && qrActions.catalog && (
         <section className="py-16 md:py-8">
           <div className="container mx-auto px-4">
             <div className="mb-10 text-center md:mb-6">
@@ -194,16 +252,27 @@ const QrLanding = () => {
               <p className="mt-3 text-lg text-muted-foreground">{t("catalog.subtitle")}</p>
               <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-accent" />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} compact />
-              ))}
-            </div>
+            {catalogStatus === "loading" && (
+              <p className="text-center text-muted-foreground">{t("catalog.loading")}</p>
+            )}
+            {catalogStatus === "error" && (
+              <p className="text-center text-muted-foreground">{t("catalog.error")}</p>
+            )}
+            {catalogStatus === "ready" && catalogProducts.length === 0 && (
+              <p className="text-center text-muted-foreground">{t("catalog.empty")}</p>
+            )}
+            {catalogStatus === "ready" && catalogProducts.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {catalogProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} compact />
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}
 
-      {qrActions.packages && (
+      {!settingsLoading && qrActions.packages && (
         <>
           <div className="-mb-px">
             <WaveDivider color="hsl(var(--section-peach))" />
@@ -224,7 +293,18 @@ const QrLanding = () => {
                   <p className="mt-3 text-lg text-muted-foreground">Ahorra más con nuestros paquetes especiales</p>
                   <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-primary" />
                 </div>
-                <PackageCarousel packages={packages} />
+                {packagesStatus === "loading" && (
+                  <p className="text-center text-muted-foreground">{t("packages.loading")}</p>
+                )}
+                {packagesStatus === "error" && (
+                  <p className="text-center text-muted-foreground">{t("packages.error")}</p>
+                )}
+                {packagesStatus === "ready" && catalogPackages.length === 0 && (
+                  <p className="text-center text-muted-foreground">{t("packages.empty")}</p>
+                )}
+                {packagesStatus === "ready" && catalogPackages.length > 0 && (
+                  <PackageCarousel packages={catalogPackages} />
+                )}
               </div>
             </div>
             <WaveDivider color="#ffffff" />

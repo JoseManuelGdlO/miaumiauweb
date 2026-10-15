@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { usePublicSiteSettings } from "@/contexts/PublicSiteSettingsContext";
-import { products, packages } from "@/data/products";
+import type { Product } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import PackageCarousel from "@/components/PackageCarousel";
 import PromoCard from "@/components/PromoCard";
@@ -9,6 +9,8 @@ import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
 import { Star, Truck, Heart, Award, PawPrint, Smartphone, Cat, Package, ExternalLink } from "lucide-react";
 import { buildHeroYoutubeEmbedSrc } from "@/lib/youtubeHero";
+import { fetchActivePackages } from "@/lib/catalogPackages";
+import { fetchCatalogProducts } from "@/lib/catalogProducts";
 import { fetchActivePromotions, type Promotion } from "@/lib/promotions";
 import { useWhatsAppCityOrder } from "@/components/WhatsAppCityPicker";
 
@@ -29,6 +31,10 @@ const Index = () => {
   const [featuredPromos, setFeaturedPromos] = useState<Promotion[]>([]);
   const [promotionsLoading, setPromotionsLoading] = useState(true);
   const [promotionsError, setPromotionsError] = useState("");
+  const [catalogProducts, setCatalogProducts] = useState<Product[]>([]);
+  const [catalogStatus, setCatalogStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [catalogPackages, setCatalogPackages] = useState<Product[]>([]);
+  const [packagesStatus, setPackagesStatus] = useState<"loading" | "ready" | "error">("loading");
   const [activeWhy, setActiveWhy] = useState(0);
 
   useEffect(() => {
@@ -53,7 +59,39 @@ const Index = () => {
       }
     };
 
+    const loadCatalog = async () => {
+      try {
+        const items = await fetchCatalogProducts();
+        if (!cancelled) {
+          setCatalogProducts(items);
+          setCatalogStatus("ready");
+        }
+      } catch {
+        if (!cancelled) {
+          setCatalogProducts([]);
+          setCatalogStatus("error");
+        }
+      }
+    };
+
+    const loadPackages = async () => {
+      try {
+        const items = await fetchActivePackages();
+        if (!cancelled) {
+          setCatalogPackages(items);
+          setPackagesStatus("ready");
+        }
+      } catch {
+        if (!cancelled) {
+          setCatalogPackages([]);
+          setPackagesStatus("error");
+        }
+      }
+    };
+
     void loadPromotions();
+    void loadCatalog();
+    void loadPackages();
     return () => {
       cancelled = true;
     };
@@ -69,6 +107,16 @@ const Index = () => {
 
     return () => window.clearInterval(id);
   }, [activeWhy]);
+
+  const showPackages = packagesStatus === "ready" && catalogPackages.length > 0;
+  const showPromos = !promotionsLoading && !promotionsError && featuredPromos.length > 0;
+  const afterCatalogColor = showPackages
+    ? "hsl(var(--section-peach))"
+    : showPromos
+      ? "hsl(var(--section-sky))"
+      : showMercadoLibre
+        ? MERCADO_LIBRE_SECTION_BG
+        : "hsl(var(--section-mint))";
 
   return (
     <div className="min-h-screen">
@@ -210,19 +258,31 @@ const Index = () => {
             <p className="mt-3 text-lg text-muted-foreground">{t("catalog.subtitle")}</p>
             <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-accent" />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} compact />
-            ))}
-          </div>
+          {catalogStatus === "loading" && (
+            <p className="text-center text-muted-foreground">{t("catalog.loading")}</p>
+          )}
+          {catalogStatus === "error" && (
+            <p className="text-center text-muted-foreground">{t("catalog.error")}</p>
+          )}
+          {catalogStatus === "ready" && catalogProducts.length === 0 && (
+            <p className="text-center text-muted-foreground">{t("catalog.empty")}</p>
+          )}
+          {catalogStatus === "ready" && catalogProducts.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {catalogProducts.map((product) => (
+                <ProductCard key={product.id} product={product} compact />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="absolute bottom-0 left-0 w-full">
-          <WaveDivider color="hsl(var(--section-peach))" />
+          <WaveDivider color={afterCatalogColor} />
         </div>
       </section>
 
       {/* Packages Section - Peach */}
+      {showPackages && (
       <section className="relative bg-section-peach">
         <div className="paw-pattern-qr pt-16 pb-24 md:pb-28">
           <div className="container relative z-10 mx-auto px-4">
@@ -239,7 +299,7 @@ const Index = () => {
               <p className="mt-3 text-lg text-muted-foreground">Ahorra más con nuestros paquetes especiales</p>
               <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-primary" />
             </div>
-            <PackageCarousel packages={packages} />
+            <PackageCarousel packages={catalogPackages} />
           </div>
         </div>
 
@@ -255,9 +315,10 @@ const Index = () => {
           />
         </div>
       </section>
+      )}
 
       {/* Featured Promotions - Sky section (solo si hay promociones) */}
-      {!promotionsLoading && !promotionsError && featuredPromos.length > 0 && (
+      {showPromos && (
         <section className="bg-section-sky py-16 md:py-20 paw-pattern relative">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
