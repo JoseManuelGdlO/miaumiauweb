@@ -24,8 +24,7 @@ const queryClient = new QueryClient();
 const AppRoutes = () => {
   const { pathname } = useLocation();
   const { loading, maintenancePlaceholder } = usePublicSiteSettings();
-  // Temporal: mostrar la landing para editarla. Quitar `&& false` para volver al aviso de construcción.
-  const showPlaceholder = pathname === "/" && (loading || maintenancePlaceholder) && false;
+  const showPlaceholder = pathname === "/" && (loading || maintenancePlaceholder);
   const isNotFound = !["/", "/qr", "/QR", "/promotions", "/auth", "/profile"].includes(pathname);
 
   return (
