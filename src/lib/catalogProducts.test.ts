@@ -1,10 +1,30 @@
 import { describe, expect, it } from "vitest";
-import { formatCatalogPrice, mapCatalogProduct, resolveCatalogImage } from "./catalogProducts";
+import { formatCatalogPrice, mapCatalogProduct, productsFromCatalogCsv, resolveCatalogImage } from "./catalogProducts";
 
 describe("catalog products", () => {
   it("formats the sale price in MXN", () => {
     expect(formatCatalogPrice("180.00")).toBe("$180.00 MXN");
+    expect(formatCatalogPrice("180.00 MXN")).toBe("$180.00 MXN");
     expect(formatCatalogPrice(60)).toBe("$60.00 MXN");
+  });
+
+  it("reads products from the public city catalog and skips packages", () => {
+    const csv = [
+      "id,title,description,price,image_link",
+      'PROD-1,COSTAL PLUS 10KG,"Aroma\na lavanda",180.00 MXN,https://cdn.example/plus.jpg',
+      "PAQ-2,COMBO PERLAS,Promo,280.00 MXN,https://cdn.example/combo.jpg",
+    ].join("\n");
+
+    expect(productsFromCatalogCsv(csv)).toEqual([
+      {
+        id: "PROD-1",
+        title: "COSTAL PLUS 10KG",
+        description: "Aroma a lavanda",
+        price: "$180.00 MXN",
+        image: "https://cdn.example/plus.jpg",
+        category: "producto",
+      },
+    ]);
   });
 
   it("resolves relative upload paths against the API origin", () => {
