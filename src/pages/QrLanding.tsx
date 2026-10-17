@@ -10,20 +10,24 @@ import { fetchActivePackages } from "@/lib/catalogPackages";
 import { fetchCatalogProducts } from "@/lib/catalogProducts";
 import { fetchActivePromotions, type Promotion } from "@/lib/promotions";
 import { useWhatsAppCityOrder } from "@/components/WhatsAppCityPicker";
-import { ExternalLink, Facebook, Instagram, Music, Package, Smartphone, Tag } from "lucide-react";
-import siteLogo from "@/assets/miau-logo-mark.png";
+import { Package, Tag } from "lucide-react";
+import QrLinkCardGrid, { type QrDisplayCard } from "@/components/QrLinkCardGrid";
 
-const BRAND_ORANGE = "hsl(var(--primary))";
-const BRAND_ORANGE_TEXT = "hsl(var(--primary-foreground))";
-const chipClassName =
-  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-base font-bold shadow-sm transition-transform hover:scale-105";
+const DEFAULT_LINKS_HTML = '<p style="text-align:center"><img src="/miau-logo-mark.png" alt="Miau Miau"></p><div style="text-align:center;color:#000000;font-family:Fredoka,sans-serif"><h2 style="color:#000000;font-family:Fredoka,sans-serif;font-weight:700">Miau Miau</h2><p style="color:#000000;font-family:Fredoka,sans-serif;font-weight:600">Elige lo que quieres ver</p></div>';
+
+function linksHtmlForPage(html: string) {
+  const cleaned = html.replace(/<p[^>]*>\s*<\/p>/gi, "");
+  if (/<img\b/i.test(cleaned)) return cleaned;
+  const text = cleaned.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+  if (!text || text === "Miau Miau Elige lo que quieres ver") return DEFAULT_LINKS_HTML;
+  return cleaned;
+}
 
 const QrLanding = () => {
   const { t } = useLanguage();
   const { openOrder } = useWhatsAppCityOrder();
   const {
     loading: settingsLoading,
-    fetchFailed,
     qrActions,
     mercadolibreUrl,
     socialInstagramUrl,
@@ -32,12 +36,7 @@ const QrLanding = () => {
   } = usePublicSiteSettings();
 
   const showMercadoLibre = qrActions.mercadolibre && Boolean(mercadolibreUrl);
-  const socialLinks = [
-    socialInstagramUrl ? { href: socialInstagramUrl, label: "Instagram", icon: Instagram } : null,
-    socialFacebookUrl ? { href: socialFacebookUrl, label: "Facebook", icon: Facebook } : null,
-    socialTiktokUrl ? { href: socialTiktokUrl, label: "TikTok", icon: Music } : null,
-  ].filter((link): link is { href: string; label: string; icon: typeof Instagram } => link !== null);
-  const showSocial = qrActions.social && socialLinks.length > 0;
+  const showSocial = qrActions.social && Boolean(socialInstagramUrl || socialFacebookUrl || socialTiktokUrl);
 
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [promotionsReady, setPromotionsReady] = useState(false);
@@ -143,9 +142,33 @@ const QrLanding = () => {
   }, [settingsLoading, qrActions.packages]);
 
   const showPromotions = qrActions.promotions && promotionsReady && promotions.length > 0;
-  const bubbles = qrActions.links.filter((link) => link.name.trim() && /^https?:\/\//i.test(link.url.trim()));
-  const linksHtml = qrActions.linksHtml.trim();
-  const hasLinksText = linksHtml.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim().length > 0;
+  const featuredCard: QrDisplayCard | null = qrActions.whatsapp && !qrActions.cards.whatsapp.hidden
+    ? { id: "whatsapp", ...qrActions.cards.whatsapp }
+    : null;
+  const linkCards: QrDisplayCard[] = qrActions.cardOrder.flatMap((id) => {
+    if (id === "mercadolibre") {
+      return showMercadoLibre && !qrActions.cards.mercadolibre.hidden ? [{ id, href: mercadolibreUrl, ...qrActions.cards.mercadolibre }] : [];
+    }
+    if (id === "instagram" || id === "facebook" || id === "tiktok") {
+      const href = id === "instagram" ? socialInstagramUrl : id === "facebook" ? socialFacebookUrl : socialTiktokUrl;
+      return qrActions.social && !qrActions.cards[id].hidden && href ? [{ id, href, ...qrActions.cards[id] }] : [];
+    }
+    const link = qrActions.links.find((item) => item.id === id);
+    if (!link || link.hidden || !/^https?:\/\//i.test(link.url.trim())) return [];
+    return [{
+      id: link.id,
+      href: link.url,
+      name: link.name,
+      description: link.description,
+      icon: link.icon,
+      size: link.size,
+      iconBackgroundColor: link.iconBackgroundColor,
+      cardColor: link.cardColor,
+      iconColor: link.iconColor,
+    }];
+  });
+  const linksHtml = linksHtmlForPage(qrActions.linksHtml.trim());
+  const hasLinksText = /<img\b/i.test(linksHtml) || linksHtml.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim().length > 0;
   const hasContent =
     qrActions.whatsapp ||
     qrActions.catalog ||
@@ -153,24 +176,13 @@ const QrLanding = () => {
     showPromotions ||
     showMercadoLibre ||
     showSocial ||
-    bubbles.length > 0 ||
+    linkCards.length > 0 ||
     hasLinksText;
-
-  const showChips = qrActions.whatsapp || bubbles.length > 0 || showMercadoLibre || showSocial;
-  const bubbleStyle = fetchFailed
-    ? { backgroundColor: BRAND_ORANGE, color: BRAND_ORANGE_TEXT }
-    : { backgroundColor: qrActions.linksBubbleColor, color: qrActions.linksBubbleTextColor };
 
   return (
     <div className="min-h-screen w-full bg-white">
       <section className="w-full px-4 pb-12 pt-8">
         <div className="container mx-auto text-center">
-          <img
-            src={siteLogo}
-            alt="Miau Miau"
-            className="mx-auto h-16 w-auto object-contain md:h-20"
-          />
-
           {!settingsLoading && hasLinksText && (
             <div
               className="mx-auto mt-8 max-w-3xl [&_a]:underline [&_font[size='1']]:text-xs [&_font[size='2']]:text-sm [&_font[size='3']]:text-base [&_font[size='4']]:text-lg [&_font[size='5']]:text-2xl [&_font[size='6']]:text-4xl [&_font[size='7']]:text-5xl [&_font[size='7']]:font-black [&_h2]:text-4xl [&_h2]:font-black [&_h3]:text-2xl [&_h3]:font-bold [&_img]:mx-auto [&_img]:my-4 [&_img]:max-h-96 [&_img]:max-w-full [&_img]:rounded-lg [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:text-left [&_p]:mb-3 [&_s]:line-through [&_strike]:line-through [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-left"
@@ -185,58 +197,12 @@ const QrLanding = () => {
             </p>
           )}
 
-          {!settingsLoading && showChips && (
-            <div className="mx-auto mt-8 flex max-w-3xl flex-wrap items-center justify-center gap-3">
-              {qrActions.whatsapp && (
-                <button
-                  type="button"
-                  className={chipClassName}
-                  style={bubbleStyle}
-                  onClick={() => openOrder(t("whatsapp.defaultMessage"))}
-                >
-                  <Smartphone className="h-4 w-4" />
-                  {t("hero.cta")}
-                </button>
-              )}
-              {bubbles.map((link) => (
-                <a
-                  key={link.id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={chipClassName}
-                  style={bubbleStyle}
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  {link.name}
-                </a>
-              ))}
-              {showMercadoLibre && (
-                <a
-                  href={mercadolibreUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={chipClassName}
-                  style={bubbleStyle}
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  {t("ml.cta")}
-                </a>
-              )}
-              {showSocial && socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={chipClassName}
-                  style={bubbleStyle}
-                >
-                  <link.icon className="h-4 w-4" />
-                  {link.label}
-                </a>
-              ))}
-            </div>
+          {!settingsLoading && (
+            <QrLinkCardGrid
+              featured={featuredCard}
+              cards={linkCards}
+              onFeaturedClick={() => openOrder(t("whatsapp.defaultMessage"))}
+            />
           )}
         </div>
       </section>
