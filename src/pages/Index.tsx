@@ -15,7 +15,7 @@ import { fetchActivePromotions, type Promotion } from "@/lib/promotions";
 import { useWhatsAppCityOrder } from "@/components/WhatsAppCityPicker";
 
 /** Fondo de la sección Mercado Libre (debe coincidir con el WaveDivider previo). */
-const MERCADO_LIBRE_SECTION_BG = "hsl(43 80% 94%)";
+const MERCADO_LIBRE_SECTION_BG = "hsl(48 35% 90%)";
 
 const Index = () => {
   const { t } = useLanguage();
@@ -348,10 +348,10 @@ const Index = () => {
 
       {/* Mercado Libre — solo si hay URL configurada en el administrador */}
       {showMercadoLibre && (
-        <section className="relative py-16 md:py-24" style={{ backgroundColor: MERCADO_LIBRE_SECTION_BG }}>
-          <div className="container mx-auto px-4 text-center">
+        <section className="relative pt-16 md:pt-24" style={{ backgroundColor: MERCADO_LIBRE_SECTION_BG }}>
+          <div className="container mx-auto px-4 pb-16 text-center md:pb-20">
             <div className="max-w-2xl mx-auto space-y-6">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-200/80 text-amber-950">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-yellow-500/20 text-yellow-800">
                 <ExternalLink className="h-10 w-10" />
               </div>
               <h2
@@ -360,12 +360,11 @@ const Index = () => {
               >
                 {t("ml.title")}
               </h2>
-              <p className="text-muted-foreground text-lg leading-relaxed">{t("ml.subtitle")}</p>
+              <p className="text-muted-foreground text-lg">{t("ml.subtitle")}</p>
               <Button
                 type="button"
                 size="lg"
-                variant="secondary"
-                className="text-lg px-10 py-7 rounded-full font-extrabold shadow-lg hover:shadow-xl hover:scale-105 transition-all mt-2 gap-2 bg-amber-400 hover:bg-amber-500 text-amber-950 border-0"
+                className="text-lg px-10 py-7 rounded-full font-extrabold shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-yellow-500 hover:bg-yellow-600 text-neutral-950 mt-4 gap-2"
                 asChild
               >
                 <a href={mercadolibreUrl} target="_blank" rel="noopener noreferrer">
